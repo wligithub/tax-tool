@@ -1,6 +1,6 @@
 ## Automated Personal Tax Preparing Tool for VMware Acquisition
 This is a python based tool aimed at auto generating cost base for current tax year filing and adjust AVGO share 
-cost base to ease future tax year filing. It generates tax info for each lot of type ESPP, RSU or self purchased VMW
+cost base to ease future tax year filing. It generates tax info for each lot of type ESPP, RSU, PURCHASE for VMW
 shares. Also generates tax summary across all lots and AVGO cash in lieu fractional share info.
 
 ## USAGE
@@ -9,9 +9,9 @@ usage: tax.py [-h] [-c CASH] [-s STOCK] [-v] mode input output
 
 positional arguments:
   mode                      program mode: auto, manual
-  input                     input file path. 
-                            if mode=auto: gain&loss csv file downloaded from etrade. 
-                            if mode=manual: json file, please refer to included sample-input.json as example
+  input                     input file path 
+                            if mode=auto: gain&loss csv file downloaded from etrade
+                            if mode=manual: json file, please refer to included sample-input.json
   output                    output file path
 
 options:
@@ -29,34 +29,26 @@ python tax.py manual input.json output.txt -c 459 -s 500 -v
 ```
 
 #### Prepare Input Parameter
-- `gain-loss.csv`: download from ETRADE. select `Stock Plan (AVGO) ACCOUNT` -> `My Account` tab -> `Gains & Losses` -> 
-click `Download` button. Then, save it in `csv` format.
-- vmware share count liquidated for cash & stock: download `12/31/2023 Single Account Statement` from ETRADE, find number on last page
+- `gain-loss.csv`: download from ETRADE, select `Stock Plan (AVGO) ACCOUNT` -> `My Account` tab -> `Gains & Losses` -> 
+click `Download` button. Then, save it in csv format.
+- vmware share count liquidated for cash & stock: download 12/31/2023 Single Account Statement from ETRADE, find number on last page
 
 #### Auto Mode
-In auto mode, tool processes each row in downloaded Gain & Loss csv and and generates tax info.
+In auto mode, tool processes each row in downloaded Gain & Loss csv file and generates tax info.
 
 #### Manual Mode
-In manual mode, tool processes each lot from input json file and generates tax info. This is mainly used for
-computing tax info for self purchased VMW shares. Please refer to provided `sample-input.json` for example.
+In manual mode, input json file contains a set of lot specs, please refer to provided 
+sample-input.json. Tool processes each spec and generates tax info. `fractional_share` and `fractional_share_proceeds` fields can be added to spec to
+trigger fractional share computation for that lot.
 
-## AVGO Cost Base Adjustment
-The generated per lot AVGO shares cost base can be used as is except the latest ESPP lot. That lot is the only one with disqualifying disposition.
-If that lot is sold after 08/31/2024, the ESPP disposition status will be transitioned to qualifying. We need to
-rerun the tool again to include this change. The easiest way is to modify tax_lot.py file. On top of this file, change the `MERGE_DATE`
-to lot sold date, run program again using manual mode with input json file similar to following:
-```text
-[
-   {
-      "type":"ESPP",
-      "share":<share-number>,
-      "acquire_date":"08/31/2022"
-   }
-]
-```
+#### Potential AVGO Cost Base Adjustment For Last ESPP Lot
+Generated AVGO cost base can be used as is except the last ESPP lot, which is the only one with disqualifying disposition.
+If AVGO shares from that lot are sold after 08/31/2024, its ESPP disposition status will be transitioned to qualifying. To reflect this change, we could 
+modify `tax_lot.py` file, search for `is_qualifying_disposition` method, hardcode
+return value to `Ture`, then rerun the tool.
 
 ## License
-This repo is free for non-commercial use. If you want to use any of it commercially, contact me.
+This repo is free for non-commercial use. If you want to use any of it commercially, please contact me.
 
 ## Disclaim
-Author is not tax professional, assumes no responsibility or liability for any errors or omissions in the content of this tool.
+Tool is for information and knowledge sharing purpose. Author is not tax professional, assumes no responsibility or liability for any errors or omissions in the content of this tool.

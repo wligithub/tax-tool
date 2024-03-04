@@ -10,7 +10,7 @@
       "acquire_date":"05/01/2022"
    },
    {
-      "type":"OTHER",
+      "type":"PURCHASE",
       "share":20,
       "acquire_date":"01/28/2021",
       "purchase_price": 145.21

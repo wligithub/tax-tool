@@ -111,6 +111,10 @@ def populate_espp_data(lot):
     lot["purchase_price"] = purchase_price
 
 
+def is_qualifying_disposition(offer_date, acquire_date):
+    return ((merge_date - acquire_date).days > DAYS_IN_YEAR) and ((merge_date - offer_date).days > DAYS_IN_YEAR * 2)
+
+
 def calc_espp_cost_base(lot):
     populate_espp_data(lot)
 
@@ -118,11 +122,16 @@ def calc_espp_cost_base(lot):
     acquire_date = datetime.strptime(lot["acquire_date"], "%m/%d/%Y")
 
     # calc tax
-    if ((merge_date - acquire_date).days > DAYS_IN_YEAR) and ((merge_date - offer_date).days > DAYS_IN_YEAR * 2):
+    if is_qualifying_disposition(offer_date, acquire_date):
         lot["qualifying_disposition"] = True
 
         offer_date_discount = lot["offer_date_fmv"] * 0.15
-        gain = ONE_VMW_TO_CASH - lot["purchase_price"]
+
+        # gain can be determined only after lot avgo shares are sold. For all existing espp lots, the bargain
+        # element is 15% of offer day price unless future sold avgo share price is lower than $600 per share,
+        # in which case, we need to adjust VMW_FMV_AFTER_MERGE to reflect avgo sold price
+        gain = VMW_FMV_AFTER_MERGE - lot["purchase_price"]
+
         ordinary_income = max(min(offer_date_discount, gain), 0)
         cost_base = lot["purchase_price"] + ordinary_income
     else:

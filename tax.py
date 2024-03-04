@@ -10,7 +10,7 @@ def main():
     parser.add_argument("input", type=str,
                         help="input file path. "
                              "if mode=auto: gain&loss csv file downloaded from etrade. "
-                             "if mode=manual: json file, please refer to included sample-input.json as example")
+                             "if mode=manual: json file, please refer to included sample-input.json")
     parser.add_argument("output", type=str, help="output file path")
     parser.add_argument("-c", "--cash", type=int, help="vmware share count liquidated for cash")
     parser.add_argument("-s", "--stock", type=int, help="vmware share count liquidated for stock")
@@ -172,7 +172,7 @@ def calc_lot_tax(lot):
         tax_lot.calc_rs_cost_base(lot)
     else:
         if "purchase_price" not in lot:
-            raise Exception("Other type lot misses purchase_price info")
+            raise Exception("PURCHASE type lot misses purchase_price info")
         tax_lot.calc_other_cost_base(lot)
 
     tax_lot.adjust_special_dividend(lot)
