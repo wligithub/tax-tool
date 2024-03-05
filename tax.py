@@ -50,7 +50,6 @@ def calc_tax_auto(input_file_path, output_file, verbose):
     lots = []
     idx = 3
 
-    # assumption: lot contains at least 4 vmw shares so avgo fractional share can be sold within 1 lot
     avgo_lot = None
     avgo_fractional_share = None
     avgo_acquire_date = None
@@ -80,7 +79,7 @@ def calc_tax_auto(input_file_path, output_file, verbose):
                 if plan_type == "ESPP":
                     lot["offer_date"] = row["Grant Date"]
 
-            # so the lot tax data in output file can be referred back to corresponding csv row
+            # so the per lot tax data in output file can be referred back to corresponding csv row
             lot["row_id"] = idx
             idx = idx + 1
 
@@ -95,13 +94,9 @@ def calc_tax_auto(input_file_path, output_file, verbose):
     # find the lot used for avgo fractional share cost base, calc avgo fractional share cost base
     if avgo_acquire_date:
         avgo_lot = find_avgo_fractional_lot(avgo_acquire_date, lots)
-        if avgo_lot["share"] >= 4:
-            avgo_lot["fractional_share"] = avgo_fractional_share
-            avgo_lot["fractional_share_proceeds"] = avgo_fractional_share_proceeds
-            tax_lot.calc_fractional_share(avgo_lot)
-        else:
-            print("lot picked for avgo fractional calc contains less than 4 vmw shares. row=%s, pick a lot and "
-                  "calc fractional use manual mode" % avgo_lot["row_id"])
+        avgo_lot["fractional_share"] = avgo_fractional_share
+        avgo_lot["fractional_share_proceeds"] = avgo_fractional_share_proceeds
+        tax_lot.calc_fractional_share(avgo_lot)
 
     total_vmw_share = 0
     total_avgo_share = 0
