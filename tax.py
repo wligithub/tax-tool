@@ -94,9 +94,13 @@ def calc_tax_auto(input_file_path, output_file, verbose):
     # find the lot used for avgo fractional share cost base, calc avgo fractional share cost base
     if avgo_acquire_date:
         avgo_lot = find_avgo_fractional_lot(avgo_acquire_date, lots)
-        avgo_lot["fractional_share"] = avgo_fractional_share
-        avgo_lot["fractional_share_proceeds"] = avgo_fractional_share_proceeds
-        tax_lot.calc_fractional_share(avgo_lot)
+
+        if avgo_lot is not None:
+            avgo_lot["fractional_share"] = avgo_fractional_share
+            avgo_lot["fractional_share_proceeds"] = avgo_fractional_share_proceeds
+            tax_lot.calc_fractional_share(avgo_lot)
+        else:
+            print("Failed to find cost base lot for fractional share, acquire date=%s" % avgo_acquire_date)
 
     total_vmw_share = 0
     total_avgo_share = 0
@@ -153,6 +157,8 @@ def find_avgo_fractional_lot(avgo_acquire_date, lots):
     for lot in lots:
         if lot["acquire_date"] == avgo_acquire_date:
             return lot
+
+    return None
 
 
 def calc_lot_tax(lot):
