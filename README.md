@@ -42,8 +42,8 @@ From output file, for each lot that is not sold before merge date,
 - enter "total proceeds" value into `Box 1d - Proceeds`
 - enter "total cost base" value into `Cost basis or adjusted cost basis`
 
-![Alt text](img/tt-1.png?raw=true "enter total proceeds")
-![Alt text](img/tt-2.png?raw=true "enter total cost base")
+![Alt text](tt-1.png?raw=true "enter total proceeds")
+![Alt text](tt-2.png?raw=true "enter total cost base")
 
 
 #### Potential AVGO Cost Base Adjustment For Last ESPP Lot
