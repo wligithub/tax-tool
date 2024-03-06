@@ -52,10 +52,10 @@ def update_global_variable(vmw_to_cash_share, vmw_to_avgo_share):
 
 
 def display_global_variable(output_file):
-    output_file.write('{:<35s}{:<.2f}\n'.format("AVGO FMV (%s):" % MERGE_DATE, AVGO_FMV))
-    output_file.write('{:<35s}{:<.6f}\n'.format("VMW per share cash value:", VMW_CASH_COMPONENT_VALUE))
+    output_file.write('{:<35s}${:,.2f}\n'.format("AVGO FMV (%s):" % MERGE_DATE, AVGO_FMV))
+    output_file.write('{:<35s}${:,.6f}\n'.format("VMW per share cash value:", VMW_CASH_COMPONENT_VALUE))
     output_file.write('{:<35s}{:<.6f}\n'.format("VMW per share AVGO ratio:", VMW_AVGO_SHARE_COMPONENT_RATIO))
-    output_file.write('{:<35s}{:<.6f}\n\n'.format("VMW per share value after merge:", VMW_FMV_AFTER_MERGE))
+    output_file.write('{:<35s}${:,.6f}\n\n'.format("VMW per share value after merge:", VMW_FMV_AFTER_MERGE))
 
     output_file.write("Special dividend 2018: date=%s, reduce cost base by %.2f\n" % (
         DIVIDEND_2018_DATE, DIVIDEND_2018_COST_BASE_REDUCTION))
@@ -111,8 +111,8 @@ def populate_espp_data(lot):
     lot["purchase_price"] = purchase_price
 
 
-def is_qualifying_disposition(offer_date, acquire_date):
-    return ((merge_date - acquire_date).days > DAYS_IN_YEAR) and ((merge_date - offer_date).days > DAYS_IN_YEAR * 2)
+def is_qualifying_disposition(offer_date, acquire_date, sold_date):
+    return ((sold_date - acquire_date).days > DAYS_IN_YEAR) and ((sold_date - offer_date).days > DAYS_IN_YEAR * 2)
 
 
 def calc_espp_cost_base(lot):
@@ -120,9 +120,10 @@ def calc_espp_cost_base(lot):
 
     offer_date = datetime.strptime(lot["offer_date"], "%m/%d/%Y")
     acquire_date = datetime.strptime(lot["acquire_date"], "%m/%d/%Y")
+    sold_date = datetime.strptime(lot["sold_date"], "%m/%d/%Y")
 
     # calc tax
-    if is_qualifying_disposition(offer_date, acquire_date):
+    if is_qualifying_disposition(offer_date, acquire_date, sold_date):
         lot["qualifying_disposition"] = True
 
         offer_date_discount = lot["offer_date_fmv"] * 0.15
@@ -141,6 +142,7 @@ def calc_espp_cost_base(lot):
         cost_base = lot["acquire_date_fmv"]
 
     lot["ordinary_income"] = ordinary_income
+    lot["total_ordinary_income"] = lot["ordinary_income"] * lot["share"]
     lot["cost_base"] = cost_base
 
     return lot
@@ -151,14 +153,12 @@ def calc_rs_cost_base(lot):
 
     lot["acquire_date_fmv"] = acquire_date_fmv
     lot["purchase_price"] = acquire_date_fmv
-    lot["ordinary_income"] = acquire_date_fmv
     lot["cost_base"] = acquire_date_fmv
 
     return lot
 
 
 def calc_other_cost_base(lot):
-    lot["ordinary_income"] = 0
     lot["cost_base"] = lot["purchase_price"]
 
 
@@ -190,21 +190,32 @@ def calc_merge_tax_and_avgo_cost_base(lot):
     lot["avgo_cost_base"] = avgo_cost_base
 
 
-def check_capital_gain_term(lot):
+def set_capital_gain_term(lot):
     acquire_date_str = lot["acquire_date"]
+    sold_date_str = lot["sold_date"]
 
     acquire_date = datetime.strptime(acquire_date_str, "%m/%d/%Y")
-    if (merge_date - acquire_date).days > DAYS_IN_YEAR:
-        lot["long_term"] = True
-    else:
-        lot["long_term"] = False
+    sold_date = datetime.strptime(sold_date_str, "%m/%d/%Y")
+
+    lot["long_term"] = (sold_date - acquire_date).days > DAYS_IN_YEAR
+
+
+def set_lot_merge_status(lot):
+    sold_date_str = lot["sold_date"]
+    sold_date = datetime.strptime(sold_date_str, "%m/%d/%Y")
+
+    lot["merged"] = sold_date >= merge_date
 
 
 def calc_total(lot):
-    lot["total_ordinary_income"] = lot["ordinary_income"] * lot["share"]
-    lot["total_proceeds"] = VMW_CASH_COMPONENT_VALUE * lot["share"]
     lot["total_capital_gain"] = lot["capital_gain"] * lot["share"]
-    lot["total_cost_base"] = lot["total_proceeds"] - lot["total_capital_gain"]
+
+    total_cost_base = lot["total_proceeds"] - lot["total_capital_gain"]
+    # fix negative 0 issue
+    if total_cost_base < 0:
+        total_cost_base = 0.00
+
+    lot["total_cost_base"] = total_cost_base
     lot["avgo_share"] = VMW_AVGO_SHARE_COMPONENT_RATIO * lot["share"]
     lot["avgo_total_cost_base"] = lot["avgo_cost_base"] * lot["avgo_share"]
 
@@ -214,58 +225,127 @@ def calc_fractional_share(lot):
     lot["fractional_share_cost_base"] = lot["avgo_cost_base"] * lot["fractional_share"] + 38
     lot["fractional_share_capital_gain"] = lot["fractional_share_proceeds"] - lot["fractional_share_cost_base"]
 
-    lot["total_proceeds"] = lot["total_proceeds"] + lot["fractional_share_proceeds"]
     lot["avgo_share"] = lot["avgo_share"] - lot["fractional_share"]
     lot["avgo_total_cost_base"] = lot["avgo_total_cost_base"] - lot["fractional_share_cost_base"]
 
 
-def display_lot_tax(lot, output_file, verbose):
+def display_lot_tax(lot, output_file, csv_file):
+    csv_file.write("{:d},".format(lot["row_id"]))
+
     output_file.write('{:<35s}{:<s}\n'.format("type:", lot["type"]))
+    csv_file.write("{:s},".format(lot["type"]))
+
     output_file.write('{:<35s}{:<.3f}\n'.format("share:", lot["share"]))
-    output_file.write('{:<35s}{:<s}\n'.format("acquire_date:", lot["acquire_date"]))
-    output_file.write('{:<35s}{:<s}\n'.format("long_term:", str(lot["long_term"])))
-    output_file.write('{:<35s}{:<.2f}\n'.format("total_proceeds:", lot["total_proceeds"]))
-    output_file.write('{:<35s}{:<.2f}\n'.format("total_cost_base:", lot["total_cost_base"]))
-    output_file.write('{:<35s}{:<.2f}\n'.format("total_capital_gain:", lot["total_capital_gain"]))
+    csv_file.write("{:.3f},".format(lot["share"]))
 
-    if lot["type"] == "RS":
-        output_file.write('{:<35s}{:<.2f}\n'.format("total_w2_income:", lot["total_ordinary_income"]))
+    output_file.write('{:<35s}{:<s}\n'.format("acquire date:", lot["acquire_date"]))
+    csv_file.write("{:s},".format(lot["acquire_date"]))
+
+    output_file.write('{:<35s}{:<s}\n'.format("long term:", str(lot["long_term"])))
+    csv_file.write("{:s},".format(str(lot["long_term"])))
+
+    output_file.write('{:<35s}${:,.2f}\n'.format("total proceeds:", lot["total_proceeds"]))
+    csv_file.write("\"${:,.2f} \",".format(lot["total_proceeds"]))
+
+    output_file.write('{:<35s}${:,.2f}\n'.format("total cost base:", lot["total_cost_base"]))
+    csv_file.write("\"${:,.2f} \",".format(lot["total_cost_base"]))
+
+    output_file.write('{:<35s}${:,.2f}\n'.format("total capital gain:", lot["total_capital_gain"]))
+    csv_file.write("\"${:,.2f} \",".format(lot["total_capital_gain"]))
+
+    if lot["type"] == "ESPP":
+        output_file.write(
+            '{:<35s}${:,.2f}\n'.format("total pending ordinary income:", lot["total_ordinary_income"]))
+        csv_file.write("\"${:,.2f} \",".format(lot["total_ordinary_income"]))
     else:
-        output_file.write('{:<35s}{:<.2f}\n'.format("total_pending_ordinary_income:", lot["total_ordinary_income"]))
+        csv_file.write(",")
 
-    output_file.write('{:<35s}{:<.3f}\n'.format("avgo_share:", lot["avgo_share"]))
-    output_file.write('{:<35s}{:<.2f}\n'.format("avgo_total_cost_base:", lot["avgo_total_cost_base"]))
+    output_file.write('{:<35s}{:<.3f}\n'.format("avgo share:", lot["avgo_share"]))
+    csv_file.write("{:.3f},".format(lot["avgo_share"]))
+
+    output_file.write('{:<35s}${:,.2f}\n'.format("total avgo cost base:", lot["avgo_total_cost_base"]))
+    csv_file.write("\"${:,.2f} \",".format(lot["avgo_total_cost_base"]))
 
     if "fractional_share_cost_base" in lot:
         display_fractiona_share(output_file, lot)
 
-    if verbose:
-        output_file.write("\nper share info:\n")
+    output_file.write("\nper share info:\n")
 
-        output_file.write('{:<35s}{:<.2f}\n'.format("purchase_price:", lot["purchase_price"]))
-        output_file.write('{:<35s}{:<.2f}\n'.format("cost_base:", lot["cost_base"]))
-        output_file.write('{:<35s}{:<.2f}\n'.format("pre_div_adj_cost_base:", lot["pre_div_adj_cost_base"]))
-        output_file.write('{:<35s}{:<.2f}\n'.format("merge_gain:", lot["merge_gain"]))
-        output_file.write('{:<35s}{:<.2f}\n'.format("capital_gain:", lot["capital_gain"]))
-        output_file.write('{:<35s}{:<.2f}\n'.format("ordinary_income:", lot["ordinary_income"]))
+    output_file.write('{:<35s}${:,.2f}\n'.format("purchase price:", lot["purchase_price"]))
+    csv_file.write("\"${:,.2f} \",".format(lot["purchase_price"]))
 
-        if lot["type"] == "ESPP":
-            output_file.write('{:<35s}{:<s}\n'.format("qualifying_disposition:", str(lot["qualifying_disposition"])))
-            output_file.write('{:<35s}{:<s}\n'.format("offer_date:", lot["offer_date"]))
-            output_file.write('{:<35s}{:<.2f}\n'.format("offer_date_fmv:", lot["offer_date_fmv"]))
-            output_file.write('{:<35s}{:<s}\n'.format("acquire_date:", lot["acquire_date"]))
-            output_file.write('{:<35s}{:<.2f}\n'.format("acquire_date_fmv:", lot["acquire_date_fmv"]))
-        elif lot["type"] == "RS":
-            output_file.write('{:<35s}{:<s}\n'.format("acquire_date:", lot["acquire_date"]))
-            output_file.write('{:<35s}{:<.2f}\n'.format("acquire_date_fmv:", lot["acquire_date_fmv"]))
+    output_file.write('{:<35s}${:,.2f}\n'.format("cost base:", lot["cost_base"]))
+    csv_file.write("\"${:,.2f} \",".format(lot["cost_base"]))
 
-        output_file.write('{:<35s}{:<.2f}\n'.format("avgo_cost_base:", lot["avgo_cost_base"]))
+    output_file.write('{:<35s}${:,.2f}\n'.format("pre div adj cost base:", lot["pre_div_adj_cost_base"]))
+    csv_file.write("\"${:,.2f} \",".format(lot["pre_div_adj_cost_base"]))
+
+    output_file.write('{:<35s}${:,.2f}\n'.format("merge gain:", lot["merge_gain"]))
+    csv_file.write("\"${:,.2f} \",".format(lot["merge_gain"]))
+
+    output_file.write('{:<35s}${:,.2f}\n'.format("capital gain:", lot["capital_gain"]))
+    csv_file.write("\"${:,.2f} \",".format(lot["capital_gain"]))
+
+    output_file.write('{:<35s}${:,.2f}\n'.format("avgo cost base:", lot["avgo_cost_base"]))
+    csv_file.write("\"${:,.2f} \",".format(lot["avgo_cost_base"]))
+
+    if lot["type"] == "ESPP":
+        output_file.write('{:<35s}{:<s}\n'.format("offer date:", lot["offer_date"]))
+        csv_file.write("{:s},".format(lot["offer_date"]))
+
+        output_file.write('{:<35s}${:,.2f}\n'.format("offer date fmv:", lot["offer_date_fmv"]))
+        csv_file.write("\"${:,.2f} \",".format(lot["offer_date_fmv"]))
+
+        output_file.write('{:<35s}{:<s}\n'.format("acquire date:", lot["acquire_date"]))
+        csv_file.write("{:s},".format(lot["acquire_date"]))
+
+        output_file.write('{:<35s}${:,.2f}\n'.format("acquire date fmv:", lot["acquire_date_fmv"]))
+        csv_file.write("\"${:,.2f} \",".format(lot["acquire_date_fmv"]))
+
+        output_file.write('{:<35s}{:<s}\n'.format("qualifying disposition:", str(lot["qualifying_disposition"])))
+        csv_file.write("{:s},".format(str(lot["qualifying_disposition"])))
+
+        output_file.write('{:<35s}${:,.2f}\n'.format("ordinary income:", lot["ordinary_income"]))
+        csv_file.write("\"${:,.2f} \",".format(lot["ordinary_income"]))
+    else:
+        csv_file.write(",,,,,")
+
+    csv_file.write("\n")
+
+
+def generate_csv_header():
+    return "row id,type,share,acquire date,long term,total proceeds,total cost base,total capital gain," \
+           "total pending ordinary income,avgo share,total avgo cost base,per share purchase price," \
+           "per share cost base,per share pre div adj cost base,per share merge gain,per share capital gain," \
+           "per share avgo cost base,espp offer date,espp offer data fmv,acquire date,acquire date fmv," \
+           "qualifying disposition,per share ordinary income\n"
+
+
+def display_not_merged_lot_tax(lot, output_file, csv_file):
+    csv_file.write("{:d}".format(lot["row_id"]))
+
+    output_file.write('{:<35s}{:<s}\n'.format("type:", lot["type"]))
+    csv_file.write("{:s},".format(lot["type"]))
+
+    output_file.write('{:<35s}{:<.3f}\n'.format("share:", lot["share"]))
+    csv_file.write("{:.3f},".format("%.3f," % lot["share"]))
+
+    output_file.write('{:<35s}{:<s}\n'.format("acquire date:", lot["acquire_date"]))
+    csv_file.write("{:s},".format(lot["acquire_date"]))
+
+    output_file.write('{:<35s}{:<s}\n'.format("long term:", str(lot["long_term"])))
+    csv_file.write("{:s},".format(lot["long_term"]))
+
+    output_file.write('{:<35s}${:,.2f}\n'.format("total proceeds:", lot["total_proceeds"]))
+    csv_file.write("\"${:,.2f} \",".format(lot["total_proceeds"]))
+
+    csv_file.write(",,,,,,,,,,,,,,,,,")
 
 
 def display_fractiona_share(output_file, lot):
-    output_file.write('{:<35s}{:<.3f}\n'.format("fractional_share:", lot["fractional_share"]))
-    output_file.write('{:<35s}{:<.2f}\n'.format("fractional_share_proceeds:", lot["fractional_share_proceeds"]))
-    output_file.write('{:<35s}{:<.2f} including $38 fee\n'.format("fractional_share_cost_base:",
-                                                                  lot["fractional_share_cost_base"]))
-    output_file.write('{:<35s}{:<.2f}\n'.format("fractional_share_capital_gain:",
-                                                lot["fractional_share_capital_gain"]))
+    output_file.write('{:<35s}{:<.3f}\n'.format("fractional share:", lot["fractional_share"]))
+    output_file.write('{:<35s}${:,.2f}\n'.format("fractional share proceeds:", lot["fractional_share_proceeds"]))
+    output_file.write('{:<35s}${:,.2f} including $38 fee\n'.format("fractional share cost base:",
+                                                                   lot["fractional_share_cost_base"]))
+    output_file.write('{:<35s}${:,.2f}\n'.format("fractional share capital gain:",
+                                                 lot["fractional_share_capital_gain"]))

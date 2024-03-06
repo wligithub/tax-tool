@@ -1,45 +1,50 @@
 ## Automated Personal Tax Preparing Tool for VMware Acquisition
 This is a python based tool aimed at auto generating cost base for current tax year filing and adjust AVGO share 
-cost base to ease future tax year filing. It generates tax info for each lot of type ESPP, RSU, PURCHASE for VMW
-shares. Also generates tax summary across all lots and AVGO cash in lieu fractional share info.
+cost base to ease future tax year filing. 
+
+This tool processes Gain & Loss file downloaded from ETRADE. It generates tax info for each row(lot) that is not sold 
+before merge. It also generates tax summary across all lots and AVGO cash in lieu fractional share info if applicable.
 
 ## USAGE
 ```text
-usage: tax.py [-h] [-c CASH] [-s STOCK] [-v] mode input output
+usage: tax.py [-h] [-c CASH] [-s STOCK] input output
 
 positional arguments:
-  mode                      program mode: auto, manual
-  input                     input file path 
-                            if mode=auto: gain&loss csv file downloaded from etrade
-                            if mode=manual: json file, please refer to included sample-input.json
-  output                    output file path
+  input                     gain & loss csv file path
+  output                    output file path, without file extension
 
 options:
   -h, --help                show this help message and exit
   -c CASH, --cash CASH      vmware share count liquidated for cash
-  -s STOCK, --stock stock   vmware share count liquidated for stock
-  -v, --verbose             increase output verbosity
+  -s STOCK, --stock STOCK   vmware share count liquidated for stock
 ```
 
 #### Usage example
 ```text
 cd tool-dir
-python tax.py auto gain-loss.csv output.txt -c 459 -s 500 -v
-python tax.py manual input.json output.txt -c 459 -s 500 -v
+python tax.py gain-loss.csv output -c 459 -s 500
 ```
 
 #### Prepare Input Parameter
-- `gain-loss.csv`: download from ETRADE, select `Stock Plan (AVGO) ACCOUNT` -> `My Account` tab -> `Gains & Losses` -> 
-click `Download` button. Then, save it in csv format.
-- vmware share count liquidated for cash & stock: download 12/31/2023 Single Account Statement from ETRADE, find number on last page
+- `gain&loss` file: from ETRADE website, select `Stock Plan (AVGO) ACCOUNT` -> `My Account` tab -> `Gains & Losses` -> 
+click `Download`. Either `Download Collapsed` or `Download Expanded` are ok. Then, save it in csv format.
+- vmware share count liquidated for cash & stock: from ETRADE website, select `Stock Plan (AVGO) ACCOUNT` -> 
+`Tax Information` tab -> `statements` -> download 12/31/2023 Single Account Statement. On the last page of this statement:
+    - find row with `UNACCEPTED SHARES` comments, the `Quantity` number is the share count liquidated for cash
+    - find row with `TENDER PAYMERNT` comments, the `Quantity` number is the share count liquidated for stock
+    
+#### Output
+This tool generates two files that contain computed tax info: one in text format, another with the same name in csv format. In both output files, each lot 
+is identified by a row id which refers back to row id of the passed in Gain & Loss file.
 
-#### Auto Mode
-In auto mode, tool processes each row in downloaded Gain & Loss csv file and generates tax info.
+#### Turbo Tax Filing
+From output file, for each lot that is not sold before merge date,
+- enter "total proceeds" value into `Box 1d - Proceeds`
+- enter "total cost base" value into `Cost basis or adjusted cost basis`
 
-#### Manual Mode
-In manual mode, input json file contains a set of lot specs, please refer to provided 
-sample-input.json. Tool processes each spec and generates tax info. `fractional_share` and `fractional_share_proceeds` fields can be added to spec to
-trigger fractional share computation for that lot.
+![Alt text](img/tt-1.png?raw=true "enter total proceeds")
+![Alt text](img/tt-2.png?raw=true "enter total cost base")
+
 
 #### Potential AVGO Cost Base Adjustment For Last ESPP Lot
 Generated AVGO cost base can be used as is except the last ESPP lot, which is the only one with disqualifying disposition.
