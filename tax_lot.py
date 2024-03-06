@@ -244,10 +244,10 @@ def display_lot_tax(lot, output_file, csv_file):
     output_file.write('{:<35s}{:<s}\n'.format("long term:", str(lot["long_term"])))
     csv_file.write("{:s},".format(str(lot["long_term"])))
 
-    output_file.write('{:<35s}${:,.2f}\n'.format("total proceeds:", lot["total_proceeds"]))
+    output_file.write('{:<35s}${:,.2f}\n'.format("Box 1d Proceeds:", lot["total_proceeds"]))
     csv_file.write("\"${:,.2f} \",".format(lot["total_proceeds"]))
 
-    output_file.write('{:<35s}${:,.2f}\n'.format("total cost base:", lot["total_cost_base"]))
+    output_file.write('{:<35s}${:,.2f}\n'.format("Cost basis or adjusted cost basis:", lot["total_cost_base"]))
     csv_file.write("\"${:,.2f} \",".format(lot["total_cost_base"]))
 
     output_file.write('{:<35s}${:,.2f}\n'.format("total capital gain:", lot["total_capital_gain"]))
@@ -314,7 +314,7 @@ def display_lot_tax(lot, output_file, csv_file):
 
 
 def generate_csv_header():
-    return "row id,type,share,acquire date,long term,total proceeds,total cost base,total capital gain," \
+    return "row id,type,share,acquire date,long term,Box 1d Proceeds,Cost basis or adjusted cost basis,total capital gain," \
            "total pending ordinary income,avgo share,total avgo cost base,per share purchase price," \
            "per share cost base,per share pre div adj cost base,per share merge gain,per share capital gain," \
            "per share avgo cost base,espp offer date,espp offer data fmv,acquire date,acquire date fmv," \
@@ -336,7 +336,7 @@ def display_not_merged_lot_tax(lot, output_file, csv_file):
     output_file.write('{:<35s}{:<s}\n'.format("long term:", str(lot["long_term"])))
     csv_file.write("{:s},".format(lot["long_term"]))
 
-    output_file.write('{:<35s}${:,.2f}\n'.format("total proceeds:", lot["total_proceeds"]))
+    output_file.write('{:<35s}${:,.2f}\n'.format("Box 1d Proceeds:", lot["total_proceeds"]))
     csv_file.write("\"${:,.2f} \",".format(lot["total_proceeds"]))
 
     csv_file.write(",,,,,,,,,,,,,,,,,")
