@@ -115,7 +115,7 @@ def is_qualifying_disposition(offer_date, acquire_date, sold_date, force_qualify
     status = ((sold_date - acquire_date).days > DAYS_IN_YEAR) and ((sold_date - offer_date).days > DAYS_IN_YEAR * 2)
 
     if force_qualifying_disposition and not status:
-        print("Force ESPP lot to use disqualifying disposition, acquire_date=%s" % acquire_date)
+        print("Force ESPP lot to use qualifying disposition, acquire_date=%s" % acquire_date)
         return True
 
     return status

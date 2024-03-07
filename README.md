@@ -19,7 +19,7 @@ options:
   -h, --help                show this help message and exit
   -c CASH, --cash CASH      vmware share count liquidated for cash
   -s STOCK, --stock STOCK   vmware share count liquidated for stock
-  -q, --force               force espp lot to use qualifying disposition, default to false
+  -f, --force               force espp lot to use qualifying disposition, default to false
 ```
 
 #### Usage example
