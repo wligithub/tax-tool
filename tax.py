@@ -3,6 +3,8 @@ import csv
 from datetime import datetime
 import tax_lot
 
+FORCE_QUALIFYING_DISPOSITION = False
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -10,7 +12,13 @@ def main():
     parser.add_argument("output", type=str, help="output file path, without file extension")
     parser.add_argument("-c", "--cash", type=int, help="vmware share count liquidated for cash")
     parser.add_argument("-s", "--stock", type=int, help="vmware share count liquidated for stock")
+    parser.add_argument("-f", "--force", action="store_true",
+                        help="force espp lot to use qualifying disposition, default to false")
     args = parser.parse_args()
+
+    global FORCE_QUALIFYING_DISPOSITION
+    if args.force:
+        FORCE_QUALIFYING_DISPOSITION = True
 
     output_file_name = args.output
     output_file = open(output_file_name + ".txt", "w")
@@ -114,7 +122,7 @@ def sanitize_date_str(date_str):
 
 def calc_lot_tax(lot):
     if lot["type"] == "ESPP":
-        tax_lot.calc_espp_cost_base(lot)
+        tax_lot.calc_espp_cost_base(lot, FORCE_QUALIFYING_DISPOSITION)
     elif lot["type"] == "RS":
         tax_lot.calc_rs_cost_base(lot)
 

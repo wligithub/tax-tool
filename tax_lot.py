@@ -111,11 +111,17 @@ def populate_espp_data(lot):
     lot["purchase_price"] = purchase_price
 
 
-def is_qualifying_disposition(offer_date, acquire_date, sold_date):
-    return ((sold_date - acquire_date).days > DAYS_IN_YEAR) and ((sold_date - offer_date).days > DAYS_IN_YEAR * 2)
+def is_qualifying_disposition(offer_date, acquire_date, sold_date, force_qualifying_disposition):
+    status = ((sold_date - acquire_date).days > DAYS_IN_YEAR) and ((sold_date - offer_date).days > DAYS_IN_YEAR * 2)
+
+    if force_qualifying_disposition and not status:
+        print("Force ESPP lot to use disqualifying disposition, acquire_date=%s" % acquire_date)
+        return True
+
+    return status
 
 
-def calc_espp_cost_base(lot):
+def calc_espp_cost_base(lot, force_qualifying_disposition):
     populate_espp_data(lot)
 
     offer_date = datetime.strptime(lot["offer_date"], "%m/%d/%Y")
@@ -123,7 +129,7 @@ def calc_espp_cost_base(lot):
     sold_date = datetime.strptime(lot["sold_date"], "%m/%d/%Y")
 
     # calc tax
-    if is_qualifying_disposition(offer_date, acquire_date, sold_date):
+    if is_qualifying_disposition(offer_date, acquire_date, sold_date, force_qualifying_disposition):
         lot["qualifying_disposition"] = True
 
         offer_date_discount = lot["offer_date_fmv"] * 0.15
