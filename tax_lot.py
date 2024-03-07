@@ -42,8 +42,6 @@ def update_global_variable(vmw_to_cash_share, vmw_to_avgo_share):
     cash_ratio = vmw_to_cash_share / (vmw_to_cash_share + vmw_to_avgo_share)
     stock_ratio = vmw_to_avgo_share / (vmw_to_cash_share + vmw_to_avgo_share)
 
-    print("Use computed conversion ratio, cash_ratio=%.6f, stock_ratio=%.6f" % (cash_ratio, stock_ratio))
-
     VMW_SHARES_TO_CASH_RATIO = cash_ratio
     VMW_SHARES_TO_STOCK_RATIO = stock_ratio
     VMW_CASH_COMPONENT_VALUE = VMW_SHARES_TO_CASH_RATIO * ONE_VMW_TO_CASH
@@ -55,7 +53,9 @@ def display_global_variable(output_file):
     output_file.write('{:<35s}${:,.2f}\n'.format("AVGO FMV (%s):" % MERGE_DATE, AVGO_FMV))
     output_file.write('{:<35s}${:,.6f}\n'.format("VMW per share cash value:", VMW_CASH_COMPONENT_VALUE))
     output_file.write('{:<35s}{:<.6f}\n'.format("VMW per share AVGO ratio:", VMW_AVGO_SHARE_COMPONENT_RATIO))
-    output_file.write('{:<35s}${:,.6f}\n\n'.format("VMW per share value after merge:", VMW_FMV_AFTER_MERGE))
+    output_file.write('{:<35s}${:,.6f}\n'.format("VMW per share value after merge:", VMW_FMV_AFTER_MERGE))
+    output_file.write('{:<35s}{:,.6f}\n'.format("VMW shares to cash percent:", VMW_SHARES_TO_CASH_RATIO))
+    output_file.write('{:<35s}{:,.6f}\n\n'.format("VMW shares to stock percent:", VMW_SHARES_TO_STOCK_RATIO))
 
     output_file.write("Special dividend 2018: date=%s, reduce cost basis by %.2f\n" % (
         DIVIDEND_2018_DATE, DIVIDEND_2018_COST_BASE_REDUCTION))

@@ -16,6 +16,8 @@ def main():
     output_file = open(output_file_name + ".txt", "w")
     csv_file = open(output_file_name + ".csv", "w")
 
+    print("Output files: %s, %s" % (output_file_name + ".txt", output_file_name + ".csv"))
+
     if args.cash and args.stock:
         tax_lot.update_global_variable(args.cash, args.stock)
 
