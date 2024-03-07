@@ -47,10 +47,10 @@ file, so we can easily correlate between computed lot from output and reported l
 
 #### Turbo Tax Filing
 
-From generated output file, for each lot,
-
-- enter "total proceeds" value into `Box 1d - Proceeds`
-- enter "total cost base" value into `Cost basis or adjusted cost basis`
+For each stock transaction reported on 1099-B, find the corresponding row(lot) in generated tax file by acquire date and 
+share count.
+- Use `Box 1d Proceeds` value to populate Turbo Tax `Box 1d - Proceeds` field
+- Use `Filing Cost Basis` value to populate Turbo Tax `Cost basis or adjusted cost basis` field
 
 ![Alt text](img/tt-1.png?raw=true "enter total proceeds")
 ![Alt text](img/tt-2.png?raw=true "enter total cost base")
