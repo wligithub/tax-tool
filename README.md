@@ -63,9 +63,9 @@ share count.
 #### Potential AVGO Cost Base Adjustment For Last ESPP Lot
 
 Generated AVGO cost base can be used as is except the last ESPP lot, which is the only one with disqualifying
-disposition. If AVGO shares from that lot are sold after 03/01/2024, its ESPP disposition status will be transitioned
-to qualifying. To reflect this change, pass `-f` to command line input, which will force espp to be considered as
-qualifying disposition
+disposition. It's ESPP disposition status will be transitioned to qualifying after 03/01/2024. If you didn't sell that
+lot before 03/01/2024, pass `-f` to command line input, which will force espp to be considered as qualifying
+disposition.
 
 ## Reference
 
