@@ -132,15 +132,13 @@ def calc_espp_cost_base(lot, force_qualifying_disposition):
     if is_qualifying_disposition(offer_date, acquire_date, sold_date, force_qualifying_disposition):
         lot["qualifying_disposition"] = True
 
-        offer_date_discount = lot["offer_date_fmv"] * 0.15
+        # offer_date_discount = lot["offer_date_fmv"] * 0.15
+        # ordinary_income = offer_date_discount
+        # cost_base = lot["purchase_price"] + ordinary_income
 
-        # gain can be determined only after lot avgo shares are sold. For all existing espp lots, the bargain
-        # element is 15% of offer day price unless future sold avgo share price is lower than $600 per share,
-        # in which case, we need to adjust VMW_FMV_AFTER_MERGE to reflect avgo sold price
-        gain = VMW_FMV_AFTER_MERGE - lot["purchase_price"]
-
-        ordinary_income = max(min(offer_date_discount, gain), 0)
-        cost_base = lot["purchase_price"] + ordinary_income
+        min_price = min(lot["offer_date_fmv"], lot["acquire_date_fmv"])
+        ordinary_income = min_price * 0.15
+        cost_base = min_price
     else:
         lot["qualifying_disposition"] = False
 
