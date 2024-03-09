@@ -201,7 +201,7 @@ def calc_merge_tax_and_avgo_cost_base(lot):
     lot["avgo_total_cost_base"] = lot["avgo_cost_base"] * lot["avgo_share"]
 
 
-# calc tax for lot sold before merge≈
+# calc tax for lot sold before merge
 def calc_not_merged_tax(lot):
     lot["filing_cost_base"] = lot["cost_base"] * lot["share"]
     lot["total_capital_gain"] = lot["total_proceeds"] - lot["filing_cost_base"]

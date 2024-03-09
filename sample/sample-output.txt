@@ -13,8 +13,8 @@ total avgo share:                  20.038
 total proceeds:                    $23,871.19
 
 total short term proceeds:         $14,071.86
-total short term cost basis:       $9,668.09
-total_short term capital gain:     $4,402.43
+total short term cost basis:       $9,658.97
+total_short term capital gain:     $4,411.55
 
 total long term proceeds:          $9,146.98
 total long term cost basis:        $931.39
@@ -39,7 +39,7 @@ Filing Cost Basis:                 $931.39
 Total Capital Gain:                $3,229.12
 avgo share:                        7.293
 total avgo cost basis:             $7,105.95
-avgo cost basis:                   $979.50
+per share avgo cost basis:         $979.50
 fractional share:                  0.721
 fractional share proceeds:         $652.35
 fractional share cost basis:       $744.22 including $38 fee
@@ -66,7 +66,7 @@ Total Capital Gain:                $4,978.97
 total pending ordinary income:     $1,319.69
 avgo share:                        9.591
 total avgo cost basis:             $7,566.45
-avgo cost basis:                   $788.91
+per share avgo cost basis:         $788.91
 
 per share info:
 purchase price:                    $102.44
@@ -92,7 +92,7 @@ Filing Cost Basis:                 $849.81
 Total Capital Gain:                $787.11
 avgo share:                        3.153
 total avgo cost basis:             $3,088.59
-avgo cost basis:                   $979.50
+per share avgo cost basis:         $979.50
 
 per share info:
 purchase price:                    $164.10
@@ -110,17 +110,17 @@ acquire date:                      08/31/2022
 merge or sold date:                08/22/2023
 long term:                         False
 Box 1d Proceeds:                   $12,433.60
-Filing Cost Basis:                 $8,818.28
-Total Capital Gain:                $3,615.32
-total pending ordinary income:     $1,330.49
+Filing Cost Basis:                 $8,809.16
+Total Capital Gain:                $3,624.44
+total pending ordinary income:     $1,321.37
 
 per share info:
 purchase price:                    $98.52
-pre div adj cost basis:            $116.03
-cost basis:                        $116.03
+pre div adj cost basis:            $115.91
+cost basis:                        $115.91
 offer date:                        03/01/2022
 offer date fmv:                    $115.91
 acquire date:                      08/31/2022
 acquire date fmv:                  $116.03
-qualifying disposition:            False
-ordinary income:                   $17.51
+qualifying disposition:            True
+ordinary income:                   $17.39
