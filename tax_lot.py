@@ -198,7 +198,9 @@ def calc_merge_tax_and_avgo_cost_base(lot):
     lot["avgo_cost_base"] = avgo_cost_base
 
     lot["avgo_share"] = VMW_AVGO_SHARE_COMPONENT_RATIO * lot["share"]
-    lot["avgo_total_cost_base"] = lot["avgo_cost_base"] * lot["avgo_share"]
+
+    # round to 3 decimal point to match precision used by financial institute
+    lot["avgo_total_cost_base"] = round(lot["avgo_cost_base"], 3) * round(lot["avgo_share"], 3)
 
 
 # calc tax for lot sold before merge
