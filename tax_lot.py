@@ -274,7 +274,7 @@ def display_lot_tax(lot, output_file, csv_file):
         output_file.write('{:<35s}${:,.2f}\n'.format("total avgo cost basis:", lot["avgo_total_cost_base"]))
         csv_file.write("\"${:,.2f} \",".format(lot["avgo_total_cost_base"]))
 
-        output_file.write('{:<35s}${:,.2f}\n'.format("avgo cost basis:", lot["avgo_cost_base"]))
+        output_file.write('{:<35s}${:,.2f}\n'.format("per share avgo cost basis:", lot["avgo_cost_base"]))
         csv_file.write("\"${:,.2f} \",".format(lot["avgo_cost_base"]))
     else:
         csv_file.write(",,,")
