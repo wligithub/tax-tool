@@ -1,7 +1,7 @@
-## Automated Personal Tax Preparing Tool for VMware Acquisition
+## Automated Personal Tax Preparing Tool for VMW-AVGO Merger
 
-This is a python based tool aimed at auto generating cost base for current tax year filing and adjust AVGO share
-cost base to ease future tax year filing.
+This is a python based tool automatically calculates the cost basis of the VMW-AVGO merger. It can generate all data 
+without the need for manually inputting per-lot information; you just need to download two files from E*Trade.
 
 This tool processes Gain & Loss file downloaded from ETRADE. It generates tax info for each row(lot). It also generates
 tax summary across all lots and AVGO cash in lieu fractional share info if applicable.
