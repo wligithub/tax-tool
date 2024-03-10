@@ -4,6 +4,8 @@ from datetime import datetime
 import tax_lot
 
 FORCE_QUALIFYING_DISPOSITION = False
+VMWARE_IPO_DATE = "08/15/2007"
+ipo_date = datetime.strptime(VMWARE_IPO_DATE, "%m/%d/%Y")
 
 
 def main():
@@ -59,6 +61,12 @@ def calc_tax(input_file_path, output_file, csv_file):
 
         if row["Symbol"] == "VMW" and row["Record Type"] == "Sell":
             lot = {"row_id": idx, "share": int(row["Qty."]), "acquire_date": sanitize_date_str(row["Date Acquired"])}
+
+            acquired_date = datetime.strptime(lot["acquire_date"], "%m/%d/%Y")
+            if acquired_date < ipo_date:
+                print("Acquired date before VMware IPO, acquired date=%s, row id=%d" % (
+                    lot["acquire_date"], lot["row_id"]))
+                continue
 
             # identify unknown type is espp or rs
             plan_type = row["Plan Type"]
