@@ -74,6 +74,10 @@ def calc_tax(input_file_path, output_file, csv_file):
                 if plan_type == "ESPP":
                     lot["offer_date"] = tax_lot.get_espp_offer_date(lot["acquire_date"])
 
+            if not lot["type"] == "ESPP" and not lot["type"] == "RS":
+                print("Unsupported lot, type=%s, row id=%d" % (lot["type"], lot["row_id"]))
+                continue
+
             lot["sold_date"] = sanitize_date_str(row["Date Sold"])
 
             # so we know which lot is sold before merge
@@ -83,10 +87,14 @@ def calc_tax(input_file_path, output_file, csv_file):
             calc_lot_tax(lot)
             lots.append(lot)
         elif row["Symbol"] == "AVGO":
-            # get avgo fractional share info
-            avgo_acquire_date = sanitize_date_str(row["Date Acquired"])
-            avgo_fractional_share = float(row["Qty."])
-            avgo_fractional_share_proceeds = float(row["Total Proceeds"].strip("$").strip().replace(",", ""))
+            sold_date_str = sanitize_date_str(row["Date Sold"])
+
+            # only look for avgo fractional sell lot, skip avgo lot sold after merge
+            if sold_date_str == tax_lot.MERGE_DATE:
+                # get avgo fractional share info
+                avgo_acquire_date = sanitize_date_str(row["Date Acquired"])
+                avgo_fractional_share = float(row["Qty."])
+                avgo_fractional_share_proceeds = float(row["Total Proceeds"].strip("$").strip().replace(",", ""))
 
     # find the lot used for avgo fractional share cost base, calc avgo fractional share cost base
     if avgo_acquire_date:
