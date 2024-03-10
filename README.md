@@ -26,7 +26,7 @@ options:
 
 ```text
 cd tool-dir
-python tax.py gain-loss.csv output -c 459 -s 500 -f
+python3 tax.py gain-loss.csv output -c 459 -s 500 -f
 ```
 
 #### Prepare Input Parameter
