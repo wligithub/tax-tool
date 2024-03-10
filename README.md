@@ -34,7 +34,7 @@ python tax.py gain-loss.csv output -c 459 -s 500 -f
 - Gain & Loss file: from ETRADE website, select `Stock Plan (AVGO) ACCOUNT` -> `My Account` tab -> `Gains & Losses` ->
   click `Download`. Either `Download Collapsed` or `Download Expanded` are ok.
     - A xlsx file will be downloaded.
-    - Open it in Excel or Numbers or Google Sheet and save/download it as csv file.
+    - Open it in Excel or Numbers or Google Sheet and save/download it as csv file, use "Comma Separated Values" option if applicable.
 - VMware share count liquidated for cash & stock: from ETRADE website, select `Stock Plan (AVGO) ACCOUNT` ->
   `Tax Information` tab -> `statements` -> download 12/31/2023 Single Account Statement. On the last page of this
   statement:
@@ -62,10 +62,11 @@ share count.
 
 #### Potential AVGO Cost Base Adjustment For Last ESPP Lot
 
-Generated AVGO cost base can be used as is except the last ESPP lot, which is the only one with disqualifying
-disposition. It's ESPP disposition status will be transitioned to qualifying after 03/01/2024. If you didn't sell that
-lot before 03/01/2024, pass `-f` to command line input, which will force espp to be considered as qualifying
-disposition.
+Generated AVGO cost base can be used as is except the last ESPP lot acquired on 08/31/2022, which is the only one with 
+disqualifying disposition as of merge date. It's ESPP disposition status will be transitioned to qualifying after 
+03/01/2024. If you didn't sell the converted AVGO shares of that lot before 03/01/2024, pass `-f` to command line 
+input, which will force espp to be considered as qualifying disposition, so AVGO shares in the lot will have more
+favorable (higher) cost base.
 
 ## Reference
 
