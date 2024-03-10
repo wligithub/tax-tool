@@ -65,7 +65,7 @@ share count.
 Generated AVGO cost base can be used as is except the last ESPP lot acquired on 08/31/2022, which is the only one with 
 disqualifying disposition as of merge date. It's ESPP disposition status will be transitioned to qualifying after 
 03/01/2024. If you didn't sell the converted AVGO shares of that lot before 03/01/2024, pass `-f` to command line 
-input, which will force espp to be considered as qualifying disposition, so AVGO shares in the lot will have more
+input, which will force espp to be considered as qualifying disposition, so AVGO shares fo this lot will have more
 favorable (higher) cost base.
 
 ## Reference
