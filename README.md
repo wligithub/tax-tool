@@ -9,7 +9,7 @@ tax summary across all lots and AVGO cash in lieu fractional share info if appli
 ## USAGE
 
 ```text
-usage: tax.py [-h] [-c CASH] [-s STOCK] input output
+usage: tax.py [-h] [-c CASH] [-s STOCK] [-f] input output
 
 positional arguments:
   input                     gain & loss csv file path
@@ -25,7 +25,7 @@ options:
 #### Usage example
 
 ```text
-cd tool-dir
+cd tax-tool
 python3 tax.py gain-loss.csv output -c 459 -s 500 -f
 ```
 
@@ -34,10 +34,10 @@ python3 tax.py gain-loss.csv output -c 459 -s 500 -f
 - Gain & Loss file: from ETRADE website, select `Stock Plan (AVGO) ACCOUNT` -> `My Account` tab -> `Gains & Losses` ->
   click `Download`. Either `Download Collapsed` or `Download Expanded` are ok.
     - A xlsx file will be downloaded.
-    - Open it in Excel or Numbers or Google Sheet and save/download it as csv file, use "Comma Separated Values" if applicable
+    - Open it in Excel or Numbers or Google Sheet and save/download it as csv file, choose "Comma Separated Values" option if applicable.
     - If on macOS, use Numbers instead of MS Excel to export the xlsx file as csv.
 - VMware share count liquidated for cash & stock: from ETRADE website, select `Stock Plan (AVGO) ACCOUNT` ->
-  `Tax Information` tab -> `statements` -> download 12/31/2023 Single Account Statement. On the last page of this
+  `Tax Information` tab -> `statements` -> download 12/31/2023 `Single Account Statement`. On the last page of this
   statement:
     - find row with `UNACCEPTED SHARES` comments, the `Quantity` number is the share count liquidated for cash
     - find row with `TENDER PAYMERNT` comments, the `Quantity` number is the share count liquidated for stock
