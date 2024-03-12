@@ -60,7 +60,7 @@ def calc_tax(input_file_path, output_file, csv_file):
         idx += 1
 
         if row["Symbol"] == "VMW" and row["Record Type"] == "Sell":
-            lot = {"row_id": idx, "share": int(row["Qty."]), "acquire_date": sanitize_date_str(row["Date Acquired"])}
+            lot = {"row_id": idx, "share": float(row["Qty."]), "acquire_date": sanitize_date_str(row["Date Acquired"])}
 
             acquired_date = datetime.strptime(lot["acquire_date"], "%m/%d/%Y")
             if acquired_date < ipo_date:
@@ -103,6 +103,8 @@ def calc_tax(input_file_path, output_file, csv_file):
                 avgo_acquire_date = sanitize_date_str(row["Date Acquired"])
                 avgo_fractional_share = float(row["Qty."])
                 avgo_fractional_share_proceeds = float(row["Total Proceeds"].strip("$").strip().replace(",", ""))
+            else:
+                print("Sold AVGO after merge date, row id=%d, share=%.3f" % (idx, float(row["Qty."])))
 
     # find the lot used for avgo fractional share cost base, calc avgo fractional share cost base
     if avgo_acquire_date:

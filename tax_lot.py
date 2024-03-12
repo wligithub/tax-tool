@@ -16,7 +16,7 @@ VMW_AVGO_SHARE_COMPONENT_RATIO = VMW_SHARES_TO_STOCK_RATIO * ONE_VMW_TO_AGVO_SHA
 VMW_FMV_AFTER_MERGE = VMW_CASH_COMPONENT_VALUE + VMW_AVGO_SHARE_COMPONENT_RATIO * AVGO_FMV
 
 DIVIDEND_2021_DATE = "11/01/2021"
-DIVIDEND_2021_COST_BASE_REDUCTION = 16.87
+DIVIDEND_2021_COST_BASE_REDUCTION = 16.58
 DIVIDEND_2018_DATE = "12/28/2018"
 DIVIDEND_2018_COST_BASE_REDUCTION = DIVIDEND_2021_COST_BASE_REDUCTION + 10.18
 
@@ -229,12 +229,14 @@ def set_lot_merge_status(lot):
 
 
 def calc_fractional_share(lot):
-    # add 38 fee to cost base
-    lot["fractional_share_cost_base"] = lot["avgo_cost_base"] * lot["fractional_share"] + 38
-    lot["fractional_share_capital_gain"] = lot["fractional_share_proceeds"] - lot["fractional_share_cost_base"]
+    lot["fractional_share_cost_base"] = lot["avgo_cost_base"] * lot["fractional_share"]
 
     lot["avgo_share"] = lot["avgo_share"] - lot["fractional_share"]
     lot["avgo_total_cost_base"] = lot["avgo_total_cost_base"] - lot["fractional_share_cost_base"]
+
+    # add 38 fee to fractional share cost base
+    lot["fractional_share_cost_base"] += 38
+    lot["fractional_share_capital_gain"] = lot["fractional_share_proceeds"] - lot["fractional_share_cost_base"]
 
 
 def display_lot_tax(lot, output_file, csv_file):

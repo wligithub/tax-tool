@@ -41,6 +41,7 @@ python3 tax.py gain-loss.csv output -c 459 -s 500 -f
   statement:
     - find row with `UNACCEPTED SHARES` comments, the `Quantity` number is the share count liquidated for cash
     - find row with `TENDER PAYMERNT` comments, the `Quantity` number is the share count liquidated for stock
+- `-f` option: please refer to section `Potential AVGO Cost Base Adjustment For Last ESPP Lot`
 
 #### Output
 
