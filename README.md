@@ -1,6 +1,6 @@
 ## Automated Personal Tax Preparing Tool for VMW-AVGO Merger
 
-This is a python based tool automatically calculates the cost basis of the VMW-AVGO merger. It can generate all data 
+This is a python based tool automatically calculates the cost basis of the VMW-AVGO merger. It can generate all data
 without the need for manually inputting per-lot information; you just need to download two files from E*Trade.
 
 This tool processes Gain & Loss file downloaded from ETRADE. It generates tax info for each row(lot). It also generates
@@ -34,7 +34,8 @@ python3 tax.py gain-loss.csv output -c 459 -s 500 -f
 - Gain & Loss file: from ETRADE website, select `Stock Plan (AVGO) ACCOUNT` -> `My Account` tab -> `Gains & Losses` ->
   click `Download`. Either `Download Collapsed` or `Download Expanded` are ok.
     - A xlsx file will be downloaded.
-    - Open it in Excel or Numbers or Google Sheet and save/download it as csv file, choose "Comma Separated Values" option if applicable.
+    - Open it in Excel or Numbers or Google Sheet and save/download it as csv file, choose "Comma Separated Values"
+      option if applicable.
     - If on macOS, use Numbers instead of MS Excel to export the xlsx file as csv.
 - VMware share count liquidated for cash & stock: from ETRADE website, select `Stock Plan (AVGO) ACCOUNT` ->
   `Tax Information` tab -> `statements` -> download 12/31/2023 `Single Account Statement`. On the last page of this
@@ -64,11 +65,24 @@ share count.
 
 #### Potential AVGO Cost Base Adjustment For Last ESPP Lot
 
-Generated AVGO cost base can be used as is except the last ESPP lot acquired on 08/31/2022, which is the only one with 
-disqualifying disposition as of merge date. It's ESPP disposition status will be transitioned to qualifying after 
-03/01/2024. If you didn't sell the converted AVGO shares of that lot before 03/01/2024, pass `-f` to command line 
+Generated AVGO cost base can be used as is except the last ESPP lot acquired on 08/31/2022, which is the only one with
+disqualifying disposition as of merge date. It's ESPP disposition status will be transitioned to qualifying after
+03/01/2024. If you didn't sell the converted AVGO shares of that lot before 03/01/2024, pass `-f` to command line
 input, which will force espp to be considered as qualifying disposition, so AVGO shares of this lot will have more
 favorable (higher) cost base.
+
+## Frequently Asked Questions
+
+- [Q] My lot cost base is still 0, is this expected?
+
+    Yes. Merge transaction is different from normal sell. In general, if VMW cost base is lower than $128 per share,
+cost base is 0. Please refer to https://investors.broadcom.com/static-files/7720c4c1-c940-4d9d-800c-66819bfdc7a0,
+page 3, 2nd to the last paragraph for "filing cost base" computation guideline.
+
+- [Q] ETRADE didn't charge $38 transaction fee, what should I do to correct tool output?
+
+    Please manually subtract $38 from `fractional share cost basis`, add $38 to `fractional share capital gain`. This change
+won't impact other generated data.
 
 ## Reference
 
