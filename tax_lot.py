@@ -171,8 +171,6 @@ def adjust_special_dividend(lot):
     delta2018 = dividend_date_2018 - acquire_date
     delta2021 = dividend_date_2021 - acquire_date
 
-    lot["pre_div_adj_cost_base"] = cost_base
-
     if delta2018.days > 0:
         lot["cost_base"] = cost_base - DIVIDEND_2018_COST_BASE_REDUCTION
     elif delta2021.days > 0:
@@ -290,9 +288,6 @@ def display_lot_tax(lot, output_file, csv_file):
     output_file.write('{:<35s}${:,.2f}\n'.format("purchase price:", lot["purchase_price"]))
     csv_file.write("\"${:,.2f} \",".format(lot["purchase_price"]))
 
-    output_file.write('{:<35s}${:,.2f}\n'.format("pre div adj cost basis:", lot["pre_div_adj_cost_base"]))
-    csv_file.write("\"${:,.2f} \",".format(lot["pre_div_adj_cost_base"]))
-
     output_file.write('{:<35s}${:,.2f}\n'.format("cost basis:", lot["cost_base"]))
     csv_file.write("\"${:,.2f} \",".format(lot["cost_base"]))
 
@@ -340,10 +335,9 @@ def display_lot_tax(lot, output_file, csv_file):
 def generate_csv_header(csv_file):
     csv_file.write("row id,type,share,acquire date,merge or sold date,long term,Box 1d Proceeds,Filing Cost Basis,"
                    "total capital gain,total pending ordinary income,avgo share,total avgo cost basis,"
-                   "per share avgo cost base,per share purchase price,per share pre div adj cost basis,"
-                   "per share cost basis,per share merge gain,per share capital gain,espp offer date,"
-                   "espp offer data fmv,acquire date,acquire date fmv,qualifying disposition,"
-                   "per share ordinary income\n")
+                   "per share avgo cost base,per share purchase price,per share cost basis,per share merge gain,"
+                   "per share capital gain,espp offer date,espp offer data fmv,acquire date,acquire date fmv,"
+                   "qualifying disposition,per share ordinary income\n")
 
 
 def display_fractiona_share(output_file, lot):

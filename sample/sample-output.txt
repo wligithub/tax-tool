@@ -5,8 +5,8 @@ VMW per share value after merge:   $196.896359
 VMW shares to cash percent:        0.478632
 VMW shares to stock percent:       0.521368
 
-Special dividend 2018: date=12/28/2018, reduce cost basis by 27.05
-Special dividend 2021: date=11/01/2021, reduce cost basis by 16.87
+Special dividend 2018: date=12/28/2018, reduce cost basis by 26.76
+Special dividend 2021: date=11/01/2021, reduce cost basis by 16.58
 
 total vmw share:                   234.000
 total avgo share:                  20.038
@@ -14,19 +14,19 @@ total proceeds:                    $23,871.19
 
 total short term proceeds:         $14,071.86
 total short term cost basis:       $9,658.97
-total_short term capital gain:     $4,411.55
+total short term capital gain:     $4,411.55
 
 total long term proceeds:          $9,146.98
-total long term cost basis:        $931.39
-total long term capital gain:      $8,208.09
+total long term cost basis:        $949.08
+total long term capital gain:      $8,190.40
 
 fractional share cost basis lot:   3
 acquire date:                      05/01/2021
 long term:                         True
 fractional share:                  0.721
 fractional share proceeds:         $652.35
-fractional share cost basis:       $744.22 including $38 fee
-fractional share capital gain:     $-91.87
+fractional share cost basis:       $706.22
+fractional share capital gain:     $-53.87
 
 ---------------------- row: 3 ----------------------
 type:                              RS
@@ -35,22 +35,21 @@ acquire date:                      05/01/2021
 merge or sold date:                11/22/2023
 long term:                         True
 Box 1d Proceeds:                   $4,163.92
-Filing Cost Basis:                 $931.39
-Total Capital Gain:                $3,229.12
+Filing Cost Basis:                 $949.08
+Total Capital Gain:                $3,211.43
 avgo share:                        7.293
-total avgo cost basis:             $7,105.95
+total avgo cost basis:             $7,143.49
 per share avgo cost basis:         $979.50
 fractional share:                  0.721
 fractional share proceeds:         $652.35
-fractional share cost basis:       $744.22 including $38 fee
-fractional share capital gain:     $-91.87
+fractional share cost basis:       $706.22
+fractional share capital gain:     $-53.87
 
 per share info:
 purchase price:                    $160.83
-pre div adj cost basis:            $160.83
-cost basis:                        $143.96
-merge gain:                        $52.94
-capital gain:                      $52.94
+cost basis:                        $144.25
+merge gain:                        $52.65
+capital gain:                      $52.65
 acquire date:                      05/01/2021
 acquire date fmv:                  $160.83
 
@@ -65,14 +64,13 @@ Filing Cost Basis:                 $0.00
 Total Capital Gain:                $4,978.97
 total pending ordinary income:     $1,319.69
 avgo share:                        9.591
-total avgo cost basis:             $7,566.45
-per share avgo cost basis:         $788.91
+total avgo cost basis:             $7,587.56
+per share avgo cost basis:         $791.11
 
 per share info:
 purchase price:                    $102.44
-pre div adj cost basis:            $120.52
-cost basis:                        $103.65
-merge gain:                        $93.25
+cost basis:                        $85.86
+merge gain:                        $111.03
 capital gain:                      $68.21
 offer date:                        03/01/2020
 offer date fmv:                    $120.52
@@ -91,19 +89,18 @@ Box 1d Proceeds:                   $1,638.26
 Filing Cost Basis:                 $849.81
 Total Capital Gain:                $787.11
 avgo share:                        3.153
-total avgo cost basis:             $3,088.59
+total avgo cost basis:             $3,088.36
 per share avgo cost basis:         $979.50
 
 per share info:
 purchase price:                    $164.10
-pre div adj cost basis:            $164.10
 cost basis:                        $164.10
 merge gain:                        $32.80
 capital gain:                      $32.80
 acquire date:                      09/01/2023
 acquire date fmv:                  $164.10
 
----------------------- row: 6 ----------------------
+---------------------- row: 8 ----------------------
 type:                              ESPP
 share:                             76.000
 acquire date:                      08/31/2022
@@ -116,8 +113,7 @@ total pending ordinary income:     $1,321.37
 
 per share info:
 purchase price:                    $98.52
-pre div adj cost basis:            $115.91
-cost basis:                        $115.91
+cost basis:                        $98.52
 offer date:                        03/01/2022
 offer date fmv:                    $115.91
 acquire date:                      08/31/2022
