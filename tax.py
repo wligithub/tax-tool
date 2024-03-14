@@ -199,7 +199,7 @@ def compute_and_display_tax_summary(output_file, lots, avgo_lot):
     output_file.write('{:<35s}${:,.2f}\n'.format("total short term proceeds:", total_short_term_proceeds))
     output_file.write('{:<35s}${:,.2f}\n'.format("total short term cost basis:", total_short_term_cost_base))
     output_file.write(
-        '{:<35s}${:,.2f}\n\n'.format("total_short term capital gain:", total_short_term_capital_gain))
+        '{:<35s}${:,.2f}\n\n'.format("total short term capital gain:", total_short_term_capital_gain))
 
     output_file.write('{:<35s}${:,.2f}\n'.format("total long term proceeds:", total_long_term_proceeds))
     output_file.write('{:<35s}${:,.2f}\n'.format("total long term cost basis:", total_long_term_cost_base))
