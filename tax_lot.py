@@ -159,6 +159,7 @@ def calc_rs_cost_base(lot):
 
     # already included in w2
     lot["ordinary_income"] = 0
+    lot["total_ordinary_income"] = 0
 
     return lot
 
