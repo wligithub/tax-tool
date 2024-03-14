@@ -131,25 +131,21 @@ def calc_espp_cost_base(lot, force_qualifying_disposition):
     # calc tax
     if is_qualifying_disposition(offer_date, acquire_date, sold_date, force_qualifying_disposition):
         lot["qualifying_disposition"] = True
-
         offer_date_discount = lot["offer_date_fmv"] * 0.15
 
         # gain can be determined only after lot avgo shares are sold. For all existing espp lots, the bargain
         # element is 15% of offer day price unless future sold avgo share price is lower than $600 per share,
-        # in which case, we need to adjust VMW_FMV_AFTER_MERGE to reflect avgo sold price
+        # in which case, we need to replace VMW_FMV_AFTER_MERGE to avgo sold price
         gain = VMW_FMV_AFTER_MERGE - lot["purchase_price"]
 
         ordinary_income = max(min(offer_date_discount, gain), 0)
-        cost_base = lot["purchase_price"] + ordinary_income
     else:
         lot["qualifying_disposition"] = False
-
         ordinary_income = lot["acquire_date_fmv"] - lot["purchase_price"]
-        cost_base = lot["acquire_date_fmv"]
 
     lot["ordinary_income"] = ordinary_income
     lot["total_ordinary_income"] = lot["ordinary_income"] * lot["share"]
-    lot["cost_base"] = cost_base
+    lot["cost_base"] = lot["purchase_price"]
 
     return lot
 
@@ -160,6 +156,9 @@ def calc_rs_cost_base(lot):
     lot["acquire_date_fmv"] = acquire_date_fmv
     lot["purchase_price"] = acquire_date_fmv
     lot["cost_base"] = acquire_date_fmv
+
+    # already included in w2
+    lot["ordinary_income"] = 0
 
     return lot
 
@@ -196,7 +195,8 @@ def calc_merge_tax_and_avgo_cost_base(lot):
 
     lot["filing_cost_base"] = filing_cost_base
 
-    avgo_cost_base = (cost_base + capital_gain - VMW_CASH_COMPONENT_VALUE) / VMW_AVGO_SHARE_COMPONENT_RATIO
+    avgo_cost_base = (cost_base + capital_gain - VMW_CASH_COMPONENT_VALUE + lot[
+        "ordinary_income"]) / VMW_AVGO_SHARE_COMPONENT_RATIO
     lot["avgo_cost_base"] = avgo_cost_base
 
     lot["avgo_share"] = VMW_AVGO_SHARE_COMPONENT_RATIO * lot["share"]
@@ -207,7 +207,7 @@ def calc_merge_tax_and_avgo_cost_base(lot):
 
 # calc tax for lot sold before merge
 def calc_not_merged_tax(lot):
-    lot["filing_cost_base"] = lot["cost_base"] * lot["share"]
+    lot["filing_cost_base"] = lot["cost_base"] * lot["share"] + lot["total_ordinary_income"]
     lot["total_capital_gain"] = lot["total_proceeds"] - lot["filing_cost_base"]
 
 
@@ -230,13 +230,10 @@ def set_lot_merge_status(lot):
 
 def calc_fractional_share(lot):
     lot["fractional_share_cost_base"] = lot["avgo_cost_base"] * lot["fractional_share"]
+    lot["fractional_share_capital_gain"] = lot["fractional_share_proceeds"] - lot["fractional_share_cost_base"]
 
     lot["avgo_share"] = lot["avgo_share"] - lot["fractional_share"]
     lot["avgo_total_cost_base"] = lot["avgo_total_cost_base"] - lot["fractional_share_cost_base"]
-
-    # add 38 fee to fractional share cost base
-    lot["fractional_share_cost_base"] += 38
-    lot["fractional_share_capital_gain"] = lot["fractional_share_proceeds"] - lot["fractional_share_cost_base"]
 
 
 def display_lot_tax(lot, output_file, csv_file):
@@ -352,7 +349,6 @@ def generate_csv_header(csv_file):
 def display_fractiona_share(output_file, lot):
     output_file.write('{:<35s}{:<.3f}\n'.format("fractional share:", lot["fractional_share"]))
     output_file.write('{:<35s}${:,.2f}\n'.format("fractional share proceeds:", lot["fractional_share_proceeds"]))
-    output_file.write('{:<35s}${:,.2f} including $38 fee\n'.format("fractional share cost basis:",
-                                                                   lot["fractional_share_cost_base"]))
+    output_file.write('{:<35s}${:,.2f}\n'.format("fractional share cost basis:", lot["fractional_share_cost_base"]))
     output_file.write('{:<35s}${:,.2f}\n'.format("fractional share capital gain:",
                                                  lot["fractional_share_capital_gain"]))

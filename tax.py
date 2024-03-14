@@ -14,12 +14,12 @@ def main():
     parser.add_argument("output", type=str, help="output file path, without file extension")
     parser.add_argument("-c", "--cash", type=int, help="vmware share count liquidated for cash")
     parser.add_argument("-s", "--stock", type=int, help="vmware share count liquidated for stock")
-    parser.add_argument("-f", "--force", action="store_true",
+    parser.add_argument("-q", "--qualifying", action="store_true",
                         help="force espp lot to use qualifying disposition, default to false")
     args = parser.parse_args()
 
     global FORCE_QUALIFYING_DISPOSITION
-    if args.force:
+    if args.qualifying:
         FORCE_QUALIFYING_DISPOSITION = True
 
     output_file_name = args.output

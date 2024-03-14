@@ -9,7 +9,7 @@ tax summary across all lots and AVGO cash in lieu fractional share info if appli
 ## USAGE
 
 ```text
-usage: tax.py [-h] [-c CASH] [-s STOCK] [-f] input output
+usage: tax.py [-h] [-c CASH] [-s STOCK] [-q] input output
 
 positional arguments:
   input                     gain & loss csv file path
@@ -19,14 +19,14 @@ options:
   -h, --help                show this help message and exit
   -c CASH, --cash CASH      vmware share count liquidated for cash
   -s STOCK, --stock STOCK   vmware share count liquidated for stock
-  -f, --force               force espp lot to use qualifying disposition, default to false
+  -q, --qualifying          force espp lot to use qualifying disposition, default to false
 ```
 
 #### Usage example
 
 ```text
 cd tax-tool
-python3 tax.py gain-loss.csv output -c 459 -s 500 -f
+python3 tax.py gain-loss.csv output -c 459 -s 500 -q
 ```
 
 #### Prepare Input Parameter
@@ -42,7 +42,7 @@ python3 tax.py gain-loss.csv output -c 459 -s 500 -f
   statement:
     - find row with `UNACCEPTED SHARES` comments, the `Quantity` number is the share count liquidated for cash
     - find row with `TENDER PAYMERNT` comments, the `Quantity` number is the share count liquidated for stock
-- `-f` option: please refer to section `Potential AVGO Cost Base Adjustment For Last ESPP Lot`
+- `-q` option: please refer to section `Potential AVGO Cost Base Adjustment For Last ESPP Lot`
 
 #### Output
 
@@ -67,7 +67,7 @@ share count.
 
 Generated AVGO cost base can be used as is except the last ESPP lot acquired on 08/31/2022, which is the only one with
 disqualifying disposition as of merge date. It's ESPP disposition status will be transitioned to qualifying after
-03/01/2024. If you didn't sell the converted AVGO shares of that lot before 03/01/2024, pass `-f` to command line
+03/01/2024. If you didn't sell the converted AVGO shares of that lot before 03/01/2024, pass `-q` to command line
 input, which will force espp to be considered as qualifying disposition, so AVGO shares of this lot will have more
 favorable (higher) cost base.
 
@@ -77,12 +77,9 @@ favorable (higher) cost base.
 
     Yes. Merge transaction is different from normal sell. In general, if VMW cost base is lower than $128 per share,
 cost base is 0. Please refer to https://investors.broadcom.com/static-files/7720c4c1-c940-4d9d-800c-66819bfdc7a0,
-page 3, 2nd to the last paragraph for "filing cost base" computation guideline.
+page 3, 2nd to the last paragraph for guideline to compute "filing cost base".
 
-- [Q] ETRADE didn't charge $38 transaction fee, what should I do to correct tool output?
 
-    Please manually subtract $38 from `fractional share cost basis`, add $38 to `fractional share capital gain`. This change
-won't impact other generated data.
 
 ## Reference
 
