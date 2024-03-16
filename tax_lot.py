@@ -190,7 +190,7 @@ def calc_merge_tax_and_avgo_cost_base(lot):
     if merge_gain >= VMW_CASH_COMPONENT_VALUE:
         filing_cost_base = 0
     else:
-        filing_cost_base = (VMW_CASH_COMPONENT_VALUE - merge_gain) * lot["share"]
+        filing_cost_base = (VMW_CASH_COMPONENT_VALUE - capital_gain) * lot["share"]
 
     lot["filing_cost_base"] = filing_cost_base
 
