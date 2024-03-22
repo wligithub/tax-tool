@@ -8,17 +8,17 @@ VMW shares to stock percent:       0.521368
 Special dividend 2018: date=12/28/2018, reduce cost basis by 26.76
 Special dividend 2021: date=11/01/2021, reduce cost basis by 16.58
 
-total vmw share:                   234.000
-total avgo share:                  20.038
-total proceeds:                    $23,871.19
+total vmw share:                   368.000
+total avgo share:                  37.643
+total proceeds:                    $33,018.17
 
 total short term proceeds:         $14,071.86
 total short term cost basis:       $9,658.97
 total short term capital gain:     $4,411.55
 
-total long term proceeds:          $9,146.98
-total long term cost basis:        $949.08
-total long term capital gain:      $8,190.40
+total long term proceeds:          $18,293.96
+total long term cost basis:        $1,898.17
+total long term capital gain:      $16,380.80
 
 fractional share cost basis lot:   3
 acquire date:                      05/01/2021
@@ -54,6 +54,27 @@ acquire date:                      05/01/2021
 acquire date fmv:                  $160.83
 
 ---------------------- row: 4 ----------------------
+type:                              SO
+share:                             61.000
+acquire date:                      05/01/2021
+merge or sold date:                11/22/2023
+long term:                         True
+Box 1d Proceeds:                   $4,163.92
+Filing Cost Basis:                 $949.08
+Total Capital Gain:                $3,211.43
+avgo share:                        8.014
+total avgo cost basis:             $7,849.71
+per share avgo cost basis:         $979.50
+
+per share info:
+purchase price:                    $160.83
+cost basis:                        $144.25
+merge gain:                        $52.65
+capital gain:                      $52.65
+acquire date:                      05/01/2021
+acquire date fmv:                  $160.83
+
+---------------------- row: 5 ----------------------
 type:                              ESPP
 share:                             73.000
 acquire date:                      08/31/2020
@@ -79,7 +100,33 @@ acquire date fmv:                  $144.44
 qualifying disposition:            True
 ordinary income:                   $18.08
 
----------------------- row: 5 ----------------------
+---------------------- row: 6 ----------------------
+type:                              ESPP
+share:                             73.000
+acquire date:                      12/31/2007
+merge or sold date:                11/22/2023
+long term:                         True
+Box 1d Proceeds:                   $4,983.06
+Filing Cost Basis:                 $0.00
+Total Capital Gain:                $4,978.97
+total pending ordinary income:     $317.55
+avgo share:                        9.591
+total avgo cost basis:             $163.52
+per share avgo cost basis:         $17.05
+
+per share info:
+purchase price:                    $24.65
+cost basis:                        $-2.11
+merge gain:                        $199.01
+capital gain:                      $68.21
+offer date:                        08/14/2007
+offer date fmv:                    $29.00
+acquire date:                      12/31/2007
+acquire date fmv:                  $84.99
+qualifying disposition:            True
+ordinary income:                   $4.35
+
+---------------------- row: 7 ----------------------
 type:                              RS
 share:                             24.000
 acquire date:                      09/01/2023
@@ -100,7 +147,7 @@ capital gain:                      $32.80
 acquire date:                      09/01/2023
 acquire date fmv:                  $164.10
 
----------------------- row: 8 ----------------------
+---------------------- row: 10 ----------------------
 type:                              ESPP
 share:                             76.000
 acquire date:                      08/31/2022

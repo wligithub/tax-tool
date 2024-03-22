@@ -1,9 +1,11 @@
 Record Type,Symbol,Plan Type,Qty.,Date Acquired,Date Acquired (Wash Sale Toggle = On),Acquisition Cost,Acquisition Cost Per Share,Ordinary Income Recognized,Ordinary Income Recognized Per Share,Adjusted Cost Basis,Adjusted Cost Basis Per Share,Date Sold,Total Proceeds,Proceeds Per Share,Deferred Loss,Gain/Loss,Gain/Loss (Wash Sale Toggle = On),Adjusted Gain/Loss,Adjusted Gain/Loss Per Share,Capital Gains Status,Wash Sale Adjusted Capital Gains Status,Total Wash Sale Adjustment Amount,Wash Sale Adjustment Amount Per Share,Total Wash Sale Adjusted Cost Basis,Wash Sale Adjusted Cost Basis Per Share,Total Wash Sale Adjusted Gain/Loss,Wash Sale Adjusted Gain/Loss Per Share
 Summary,,,234,,,,,,,,,,,,,,,,,,,,,,,,
 Sell,VMW,RS,61,05/01/2021,05/01/2021,$0.00,$0.00,"$9,810.63",$160.83,"$9,810.63",$160.83,11/22/2023,"$4,163.92",$68.26,$0.00,"$4,163.92","$4,163.92","-$5,646.71",-92.569016,Long Term,Long Term,$0.00,$0.00,"$9,810.63",$160.83,"-$5,646.71",-$92.57
+Sell,VMW,SO,61,05/01/2021,05/01/2021,$0.00,$0.00,"$9,810.63",$160.83,"$9,810.63",$160.83,11/22/2023,"$4,163.92",$68.26,$0.00,"$4,163.92","$4,163.92","-$5,646.71",-92.569016,Long Term,Long Term,$0.00,$0.00,"$9,810.63",$160.83,"-$5,646.71",-$92.57
 Sell,VMW,ESPP,73,08/31/2020,08/31/2020,$0.00,$0.00,"$1,319.69",$18.08,"$1,319.69",$18.08,11/22/2023,"$4,983.06",$68.26,$0.00,"$4,983.06","$4,983.06","$3,663.37",50.183096,Long Term,Long Term,$0.00,$0.00,"$1,319.69",$18.08,"$3,663.37",$50.18
+Sell,VMW,ESPP,73,12/31/2007,12/31/2007,$0.00,$0.00,"$1,319.69",$18.08,"$1,319.69",$18.08,11/22/2023,"$4,983.06",$68.26,$0.00,"$4,983.06","$4,983.06","$3,663.37",50.183096,Long Term,Long Term,$0.00,$0.00,"$1,319.69",$18.08,"$3,663.37",$50.18
 Sell,VMW,,24,09/01/2023,09/01/2023,$0.00,$0.00,- -,- -,- -,- -,11/22/2023,"$1,638.26",$68.26,$0.00,"$1,638.26","$1,638.26",- -,- -,Short Term,Short Term,$0.00,$0.00,,,,
-Sell,VMW,OPTION,100,08/31/2022,08/31/2022,,,,,,,08/22/2023,"$12,433.60",,,,,,,,,,,,,,
+Sell,VMW,XYZ,100,08/31/2022,08/31/2022,,,,,,,08/22/2023,"$12,433.60",,,,,,,,,,,,,,
 Sell,VMW,RS,81,01/01/1970,05/01/2021,$0.00,$0.00,"$9,810.63",$160.83,"$9,810.63",$160.83,11/22/2023,"$4,163.92",$68.26,$0.00,"$4,163.92","$4,163.92","-$5,646.71",-92.569016,Long Term,Long Term,$0.00,$0.00,"$9,810.63",$160.83,"-$5,646.71",-$92.57
 Sell,VMW,ESPP,76,08/31/2022,08/31/2022,,,,,,,08/22/2023,"$12,433.60",,,,,,,,,,,,,,
 Summary,,,0.721,,,,,,,,,,$652.35,,,$652.35,,$0.00,,,,,,,,,

@@ -6,6 +6,10 @@ without the need for manually inputting per-lot information; you just need to do
 This tool processes Gain & Loss file downloaded from ETRADE. It generates tax info for each row(lot). It also generates
 tax summary across all lots and AVGO cash in lieu fractional share info if applicable.
 
+Note: this tool is applicable only to US Holders of VMware Shares. It appears that non-US holders have been paid out 
+the cash component as a dividend (instead of a share sale), which has substantially different implications to the 
+cost basis of avago shares received and/or the tax treatment of the cash component.
+
 ## USAGE
 
 ```text

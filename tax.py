@@ -82,7 +82,7 @@ def calc_tax(input_file_path, output_file, csv_file):
                 if plan_type == "ESPP":
                     lot["offer_date"] = tax_lot.get_espp_offer_date(lot["acquire_date"])
 
-            if not lot["type"] == "ESPP" and not lot["type"] == "RS":
+            if not lot["type"] == "ESPP" and not lot["type"] == "RS" and not lot["type"] == "SO":
                 print("Unsupported lot, type=%s, row id=%d" % (lot["type"], lot["row_id"]))
                 continue
 
@@ -141,7 +141,7 @@ def sanitize_date_str(date_str):
 def calc_lot_tax(lot):
     if lot["type"] == "ESPP":
         tax_lot.calc_espp_cost_base(lot, FORCE_QUALIFYING_DISPOSITION)
-    elif lot["type"] == "RS":
+    else:
         tax_lot.calc_rs_cost_base(lot)
 
     tax_lot.adjust_special_dividend(lot)
