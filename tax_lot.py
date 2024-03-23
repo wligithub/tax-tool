@@ -285,7 +285,7 @@ def display_lot_tax(lot, output_file, csv_file):
         csv_file.write(",,,")
 
     if "fractional_share_cost_base" in lot:
-        display_fractiona_share(output_file, lot)
+        display_fractional_share(output_file, lot)
 
     output_file.write("\nper share info:\n")
 
@@ -344,8 +344,8 @@ def generate_csv_header(csv_file):
                    "qualifying disposition,per share ordinary income\n")
 
 
-def display_fractiona_share(output_file, lot):
-    output_file.write('{:<35s}{:<.3f}\n'.format("fractional share:", lot["fractional_share"]))
+def display_fractional_share(output_file, lot):
+    output_file.write('\n{:<35s}{:<.3f}\n'.format("fractional share:", lot["fractional_share"]))
     output_file.write('{:<35s}${:,.2f}\n'.format("fractional share proceeds:", lot["fractional_share_proceeds"]))
     output_file.write('{:<35s}${:,.2f}\n'.format("fractional share cost basis:", lot["fractional_share_cost_base"]))
     output_file.write('{:<35s}${:,.2f}\n'.format("fractional share capital gain:",

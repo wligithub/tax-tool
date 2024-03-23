@@ -3,13 +3,12 @@
 This is a Python-based tool that automatically calculates the cost basis of the VMW-AVGO merger. It can generate all
 data without the need for manually inputting per-lot information; you just need to download two files from E*Trade.
 
-This tool processes the Gain & Loss file downloaded from E*TRADE. For each row (lot), it generates tax information,
+This tool processes the Gain&Loss file downloaded from E*TRADE. For each row (lot), it generates tax information,
 including the cost basis for cash received during the merger as well as for converted AVGO shares. Additionally,
 it calculates the cost basis for AVGO cash-in-lieu fractional shares and provides a tax summary across all lots.
 
-The tool supports VMW shares acquired via ESPP, RSU, NSO, and regular purchases, as well as VMW shares sold before
-and on the merger date. For inputting regular purchase data, please refer to the section titled 'Update Gain & Loss
-File for Shares Acquired through Regular Purchase'
+The tool supports VMW shares acquired via ESPP, RSU, NSO, and brokerage purchases, as well as VMW shares sold before
+and on the merger date.
 
 Note:
 This tool is applicable only to US holders of VMware shares. It appears that non-US holders have received the cash
@@ -21,7 +20,7 @@ component as a dividend instead of a share sale, leading to substantially differ
 usage: tax.py [-h] [-c CASH] [-s STOCK] [-q] input output
 
 positional arguments:
-  input                     gain & loss csv file path
+  input                     gain&loss csv file path
   output                    output file path, without file extension
 
 options:
@@ -40,7 +39,7 @@ python3 tax.py gain-loss.csv output -c 459 -s 500 -q
 
 #### Prepare Input Parameter
 
-- Gain&Loss file: from E*TRADE website, select `Stock Plan (AVGO) ACCOUNT` -> `My Account` tab -> `Gains & Losses` ->
+- Gain&Loss file: from E*TRADE website, select `Stock Plan (AVGO) ACCOUNT` -> `My Account` tab -> `Gains&Losses` ->
   click `Download`. Either `Download Collapsed` or `Download Expanded` are ok.
     - A xlsx file will be downloaded.
     - Open it in Excel, Numbers, or Google Sheets and save/download it as a CSV file. Choose the
@@ -51,12 +50,13 @@ python3 tax.py gain-loss.csv output -c 459 -s 500 -q
   statement:
     - find row with `UNACCEPTED SHARES` comments, the `Quantity` number is the share count liquidated for cash
     - find row with `TENDER PAYMERNT` comments, the `Quantity` number is the share count liquidated for stock
-- `-q` option: please refer to section `Potential AVGO Cost Base Adjustment For Last ESPP Lot`
+- `-q` option: please refer to the section titled `Potential AVGO Cost Base Adjustment For Last ESPP Lot`
 
-#### Update Gain&Loss file for Shares Acquired through Regular Purchase
+#### Update the Gain&Loss File for Shares Acquired Through Brokerage Purchase
 
-Shares acquired through regular purchases will not be included in the downloaded Gain & Loss file. Users must manually
-enter purchase information, allocating one row per transaction. The following columns need to be populated:
+Shares acquired through brokerage purchases will not be included in the downloaded Gain&Loss file. Users must
+manually enter purchase information into this file, allocating one row per transaction. The following columns need
+to be populated::
 
 - Record Type: `Sell`
 - Symbol: `VMW`
@@ -72,7 +72,7 @@ enter purchase information, allocating one row per transaction. The following co
 This tool generates two files: one in text format and another with the same name in CSV format. Both files contain tax
 information for each lot. Additionally, the text file contains tax summary across all lots and AVGO cash-in-lieu
 fractional share information. In the generated files, each lot has a "Row ID" field, which corresponds to the ID of
-the corresponding row from the Gain & Loss input file. This correlation allows for easy matching between computed lots
+the corresponding row from the Gain&Loss input file. This correlation allows for easy matching between computed lots
 from the output and reported lots from the input.
 
 #### Turbo Tax Filing

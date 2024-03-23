@@ -45,10 +45,8 @@ def calc_tax(input_file_path, output_file, csv_file):
     lots = []
     idx = 1
 
-    avgo_lot = None
-    avgo_fractional_share = None
-    avgo_acquire_date = None
-    avgo_fractional_share_proceeds = None
+    fractional_inputs = []
+    fractional_lots = []
 
     # read in gain&loss csv file
     with open(input_file_path, 'r') as file:
@@ -110,21 +108,28 @@ def calc_tax(input_file_path, output_file, csv_file):
                 avgo_acquire_date = sanitize_date_str(row["Date Acquired"])
                 avgo_fractional_share = float(row["Qty."])
                 avgo_fractional_share_proceeds = float(row["Total Proceeds"].strip("$").strip().replace(",", ""))
+
+                fractional_input = {"avgo_acquire_date": avgo_acquire_date,
+                                    "avgo_fractional_share": avgo_fractional_share,
+                                    "avgo_fractional_share_proceeds": avgo_fractional_share_proceeds}
+                fractional_inputs.append(fractional_input)
             else:
                 print("Sold AVGO after merge date, row id=%d, share=%.3f" % (idx, float(row["Qty."])))
 
     # find the lot used for avgo fractional share cost base, calc avgo fractional share cost base
-    if avgo_acquire_date:
-        avgo_lot = find_avgo_fractional_lot(avgo_acquire_date, lots)
+    for fractional_input in fractional_inputs:
+        fractional_lot = find_avgo_fractional_lot(fractional_input["avgo_acquire_date"], lots)
 
-        if avgo_lot is not None:
-            avgo_lot["fractional_share"] = avgo_fractional_share
-            avgo_lot["fractional_share_proceeds"] = avgo_fractional_share_proceeds
-            tax_lot.calc_fractional_share(avgo_lot)
+        if fractional_lot is not None:
+            fractional_lot["fractional_share"] = fractional_input["avgo_fractional_share"]
+            fractional_lot["fractional_share_proceeds"] = fractional_input["avgo_fractional_share_proceeds"]
+            tax_lot.calc_fractional_share(fractional_lot)
+            fractional_lots.append(fractional_lot)
         else:
-            print("Failed to find cost base lot for fractional share, acquire date=%s" % avgo_acquire_date)
+            print("Failed to find cost base lot for fractional share, acquire date=%s" % fractional_input[
+                "avgo_acquire_date"])
 
-    compute_and_display_tax_summary(output_file, lots, avgo_lot)
+    compute_and_display_tax_summary(output_file, lots, fractional_lots)
 
     # display tax data for each lot
     tax_lot.generate_csv_header(csv_file)
@@ -168,7 +173,7 @@ def find_avgo_fractional_lot(avgo_acquire_date, lots):
     return None
 
 
-def compute_and_display_tax_summary(output_file, lots, avgo_lot):
+def compute_and_display_tax_summary(output_file, lots, fractional_lots):
     total_vmw_share = 0
     total_avgo_share = 0
     total_long_term_proceeds = 0
@@ -177,6 +182,8 @@ def compute_and_display_tax_summary(output_file, lots, avgo_lot):
     total_short_term_proceeds = 0
     total_short_term_cost_base = 0
     total_short_term_capital_gain = 0
+    total_fractional_share_cost_base = 0
+    total_fractional_share_capital_gain = 0
 
     # compute tax summary of all lots
     for lot in lots:
@@ -195,8 +202,12 @@ def compute_and_display_tax_summary(output_file, lots, avgo_lot):
             total_avgo_share += lot["avgo_share"]
 
     total_proceeds = total_long_term_proceeds + total_short_term_proceeds
-    if avgo_lot is not None:
-        total_proceeds += avgo_lot["fractional_share_proceeds"]
+
+    # compute fractional share summary
+    for fractional_lot in fractional_lots:
+        total_fractional_share_cost_base += fractional_lot["fractional_share_cost_base"]
+        total_fractional_share_capital_gain += fractional_lot["fractional_share_capital_gain"]
+        total_proceeds += fractional_lot["fractional_share_proceeds"]
 
     # display tax summary of all lots
     output_file.write('{:<35s}{:<.3f}\n'.format("total vmw share:", total_vmw_share))
@@ -212,12 +223,18 @@ def compute_and_display_tax_summary(output_file, lots, avgo_lot):
     output_file.write('{:<35s}${:,.2f}\n'.format("total long term cost basis:", total_long_term_cost_base))
     output_file.write('{:<35s}${:,.2f}\n\n'.format("total long term capital gain:", total_long_term_capital_gain))
 
+    output_file.write(
+        '{:<50s}${:,.2f}\n'.format("total avgo cash-in-lieu frac share cost basis:", total_fractional_share_cost_base))
+    output_file.write(
+        '{:<50s}${:,.2f}\n'.format("total avgo cash-in-lieu frac share capital gain:",
+                                   total_fractional_share_capital_gain))
+
     # display fractional share info, same info is also displayed in that lot
-    if avgo_lot is not None:
-        output_file.write('{:<35s}{:<d}\n'.format("fractional share cost basis lot:", avgo_lot["row_id"]))
-        output_file.write('{:<35s}{:<s}\n'.format("acquire date:", avgo_lot["acquire_date"]))
-        output_file.write('{:<35s}{:<s}\n'.format("long term:", str(avgo_lot["long_term"])))
-        tax_lot.display_fractiona_share(output_file, avgo_lot)
+    for fractional_lot in fractional_lots:
+        output_file.write('\n{:<35s}{:<d}\n'.format("fractional share cost basis lot:", fractional_lot["row_id"]))
+        output_file.write('{:<35s}{:<s}\n'.format("acquire date:", fractional_lot["acquire_date"]))
+        output_file.write('{:<35s}{:<s}'.format("long term:", str(fractional_lot["long_term"])))
+        tax_lot.display_fractional_share(output_file, fractional_lot)
 
 
 if __name__ == "__main__":

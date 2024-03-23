@@ -9,8 +9,8 @@ Special dividend 2018: date=12/28/2018, reduce cost basis by 26.76
 Special dividend 2021: date=11/01/2021, reduce cost basis by 16.58
 
 total vmw share:                   429.000
-total avgo share:                  45.658
-total proceeds:                    $37,182.09
+total avgo share:                  45.537
+total proceeds:                    $37,286.57
 
 total short term proceeds:         $14,071.86
 total short term cost basis:       $9,658.97
@@ -20,6 +20,9 @@ total long term proceeds:          $22,457.88
 total long term cost basis:        $2,747.25
 total long term capital gain:      $19,692.23
 
+total avgo cash-in-lieu frac share cost basis:    $801.94
+total avgo cash-in-lieu frac share capital gain:  $-45.11
+
 fractional share cost basis lot:   3
 acquire date:                      05/01/2021
 long term:                         True
@@ -27,6 +30,14 @@ fractional share:                  0.721
 fractional share proceeds:         $652.35
 fractional share cost basis:       $706.22
 fractional share capital gain:     $-53.87
+
+fractional share cost basis lot:   6
+acquire date:                      08/31/2020
+long term:                         True
+fractional share:                  0.121
+fractional share proceeds:         $104.48
+fractional share cost basis:       $95.72
+fractional share capital gain:     $8.76
 
 ---------------------- row: 3 ----------------------
 type:                              RS
@@ -40,6 +51,7 @@ Total Capital Gain:                $3,211.43
 avgo share:                        7.293
 total avgo cost basis:             $7,143.49
 per share avgo cost basis:         $979.50
+
 fractional share:                  0.721
 fractional share proceeds:         $652.35
 fractional share cost basis:       $706.22
@@ -105,9 +117,14 @@ Box 1d Proceeds:                   $4,983.06
 Filing Cost Basis:                 $0.00
 Total Capital Gain:                $4,978.97
 total pending ordinary income:     $1,319.69
-avgo share:                        9.591
-total avgo cost basis:             $7,587.56
+avgo share:                        9.470
+total avgo cost basis:             $7,491.83
 per share avgo cost basis:         $791.11
+
+fractional share:                  0.121
+fractional share proceeds:         $104.48
+fractional share cost basis:       $95.72
+fractional share capital gain:     $8.76
 
 per share info:
 purchase price:                    $102.44
