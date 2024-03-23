@@ -150,14 +150,17 @@ def calc_espp_cost_base(lot, force_qualifying_disposition):
     return lot
 
 
-def calc_rs_cost_base(lot):
-    acquire_date_fmv = get_stock_price(lot["acquire_date"])
+def calc_cost_base(lot):
+    if "purchase_price" in lot:
+        lot["acquire_date_fmv"] = lot["purchase_price"]
+        lot["cost_base"] = lot["purchase_price"]
+    else:
+        acquire_date_fmv = get_stock_price(lot["acquire_date"])
+        lot["acquire_date_fmv"] = acquire_date_fmv
+        lot["purchase_price"] = acquire_date_fmv
+        lot["cost_base"] = acquire_date_fmv
 
-    lot["acquire_date_fmv"] = acquire_date_fmv
-    lot["purchase_price"] = acquire_date_fmv
-    lot["cost_base"] = acquire_date_fmv
-
-    # already included in w2
+    # already included in w2 if applicable
     lot["ordinary_income"] = 0
     lot["total_ordinary_income"] = 0
 

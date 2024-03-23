@@ -1,14 +1,18 @@
 ## Automated Personal Tax Preparing Tool for VMW-AVGO Merger
 
-This is a python based tool automatically calculates the cost basis of the VMW-AVGO merger. It can generate all data
-without the need for manually inputting per-lot information; you just need to download two files from E*Trade.
+This is a Python-based tool that automatically calculates the cost basis of the VMW-AVGO merger. It can generate all
+data without the need for manually inputting per-lot information; you just need to download two files from E*Trade.
 
-This tool processes Gain & Loss file downloaded from ETRADE. It generates tax info for each row(lot). It also generates
-tax summary across all lots and AVGO cash in lieu fractional share info if applicable.
+This tool processes the Gain & Loss file downloaded from E*TRADE. For each row (lot), it generates tax information,
+including the cost basis for cash received as well as for converted AVGO shares. Additionally, it provides a tax
+summary across all lots and AVGO cash-in-lieu fractional shares.
 
-Note: this tool is applicable only to US Holders of VMware Shares. It appears that non-US holders have been paid out 
-the cash component as a dividend (instead of a share sale), which has substantially different implications to the 
-cost basis of avago shares received and/or the tax treatment of the cash component.
+The tool supports VMW shares acquired via ESPP, RSU, NSO, and regular purchase, as well as VMW shares sold before and
+on the merge date.
+
+Note:
+This tool is applicable only to US holders of VMware shares. It appears that non-US holders have received the cash
+component as a dividend instead of a share sale, leading to substantially different implications for tax computation.
 
 ## USAGE
 
@@ -35,33 +39,48 @@ python3 tax.py gain-loss.csv output -c 459 -s 500 -q
 
 #### Prepare Input Parameter
 
-- Gain & Loss file: from ETRADE website, select `Stock Plan (AVGO) ACCOUNT` -> `My Account` tab -> `Gains & Losses` ->
+- Gain&Loss file: from E*TRADE website, select `Stock Plan (AVGO) ACCOUNT` -> `My Account` tab -> `Gains & Losses` ->
   click `Download`. Either `Download Collapsed` or `Download Expanded` are ok.
     - A xlsx file will be downloaded.
-    - Open it in Excel or Numbers or Google Sheet and save/download it as csv file, choose "Comma Separated Values"
-      option if applicable.
-    - If on macOS, use Numbers instead of MS Excel to export the xlsx file as csv.
-- VMware share count liquidated for cash & stock: from ETRADE website, select `Stock Plan (AVGO) ACCOUNT` ->
+    - Open it in Excel, Numbers, or Google Sheets and save/download it as a CSV file. Choose the
+      `Comma Separated Values` option if applicable.
+    - If you're using macOS, use Numbers instead of Microsoft Excel to export the .xlsx file as a CSV.
+- VMware share count liquidated for cash & stock: from E*TRADE website, select `Stock Plan (AVGO) ACCOUNT` ->
   `Tax Information` tab -> `statements` -> download 12/31/2023 `Single Account Statement`. On the last page of this
   statement:
     - find row with `UNACCEPTED SHARES` comments, the `Quantity` number is the share count liquidated for cash
     - find row with `TENDER PAYMERNT` comments, the `Quantity` number is the share count liquidated for stock
 - `-q` option: please refer to section `Potential AVGO Cost Base Adjustment For Last ESPP Lot`
 
+#### Update Gain&Loss file for Shares Acquired through Regular Purchase
+
+Shares acquired through regular purchases will not be included in the downloaded Gain & Loss file. Users must manually 
+enter purchase information, allocating one row per transaction. The following columns need to be populated:
+
+- Record Type: `Sell`
+- Symbol: `VMW`
+- Plan Type: `BUY`
+- QTY.: `<number of shares>`
+- Date Acquired: `<purchase date>`
+- Acquisition Cost: `<total purchase price including commission>`
+- Date Sold: `11/22/2023` or earlier.
+- Total Proceeds: `<total proceeds reported by 1099-B>`
+
 #### Output
 
-This tool generates two files, one in text format, another with the same name in csv format. Both files contain
-tax info for each lot, in addition, the text file contains tax summary cross all lots and AVGO cash in lieu fractional
-share info. In generated files, each lot has a row id field which is id of the corresponding row from Gain & Loss input
-file, so we can easily correlate between computed lot from output and reported lot from input.
+This tool generates two files: one in text format and another with the same name in CSV format. Both files contain tax
+information for each lot. Additionally, the text file contains tax summary across all lots and AVGO cash-in-lieu
+fractional share information. In the generated files, each lot has a "Row ID" field, which corresponds to the ID of
+the corresponding row from the Gain & Loss input file. This correlation allows for easy matching between computed lots
+from the output and reported lots from the input.
 
 #### Turbo Tax Filing
 
-For each stock transaction reported on 1099-B, find the corresponding row(lot) in generated tax file by acquire date and
-share count.
+For each stock transaction reported on Form 1099-B, locate the corresponding row (lot) in the generated tax file by 
+acquisition date and share count.
 
 - Use `Box 1d Proceeds` value generated by script to populate Turbo Tax `Box 1d - Proceeds` field. If you already
-  imported from ETRADE, verify value generated by script matches imported one.
+  imported from E*TRADE, verify value generated by script matches imported one.
 - Use `Filing Cost Basis` value generated by script to populate Turbo Tax `Cost basis or adjusted cost basis` field
 
 ![Alt text](img/tt-1.png?raw=true "enter total proceeds")
@@ -69,21 +88,19 @@ share count.
 
 #### Potential AVGO Cost Base Adjustment For Last ESPP Lot
 
-Generated AVGO cost base can be used as is except the last ESPP lot acquired on 08/31/2022, which is the only one with
-disqualifying disposition as of merge date. It's ESPP disposition status will be transitioned to qualifying after
-03/01/2024. If you didn't sell the converted AVGO shares of that lot before 03/01/2024, pass `-q` to command line
-input, which will force espp to be considered as qualifying disposition, so AVGO shares of this lot will have more
-favorable (higher) cost base.
+The generated AVGO cost basis can be used as is, except for the last ESPP lot acquired on 08/31/2022, which is the
+only one with a disqualifying disposition as of the merge date. Its ESPP disposition status will transition to
+qualifying after 03/01/2024. If you didn't sell the converted AVGO shares of that lot before 03/01/2024, include `-q`
+as a command line input, which will force the ESPP to be considered as a qualifying disposition. This adjustment will
+result in AVGO shares of this lot having a more favorable (higher) cost basis.
 
 ## Frequently Asked Questions
 
 - [Q] My lot cost base is still 0, is this expected?
-
-    Yes. Merge transaction is different from normal sell. In general, if VMW cost base is lower than $128 per share,
-cost base is 0. Please refer to https://investors.broadcom.com/static-files/7720c4c1-c940-4d9d-800c-66819bfdc7a0,
-page 3, 2nd to the last paragraph for guideline to compute "filing cost base".
-
-
+  Yes, the merge transaction is different from a normal sale. In general, if the VMW cost basis is lower than $128
+  per share, the cost basis is 0. Please refer to the following link for guidelines on computing the
+  `filing cost base`: https://investors.broadcom.com/static-files/7720c4c1-c940-4d9d-800c-66819bfdc7a0,
+  Page 3, 2nd to the last paragraph.
 
 ## Reference
 
@@ -91,9 +108,10 @@ https://investors.broadcom.com/financial-information/tax-information
 
 ## License
 
-This repo is free for non-commercial use. If you want to use any of it commercially, please contact me.
+This repository is free for non-commercial use. If you intend to use any part of it commercially, please reach out to
+me for further discussion.
 
 ## Disclaim
 
-Tool is for information and knowledge sharing purpose. Author is not tax professional, assumes no responsibility or
-liability for any errors or omissions in the content of this tool.
+The tool is intended for informational and knowledge-sharing purposes only. The author is not a tax professional and
+assumes no responsibility or liability for any errors or omissions in the content of this tool.

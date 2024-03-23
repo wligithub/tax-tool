@@ -59,7 +59,10 @@ def calc_tax(input_file_path, output_file, csv_file):
     for row in gain_loss_data:
         idx += 1
 
-        if row["Symbol"] == "VMW" and row["Record Type"] == "Sell":
+        if row["Record Type"] != "Sell":
+            continue
+
+        if row["Symbol"] == "VMW":
             lot = {"row_id": idx, "share": float(row["Qty."]), "acquire_date": sanitize_date_str(row["Date Acquired"])}
 
             acquired_date = datetime.strptime(lot["acquire_date"], "%m/%d/%Y")
@@ -81,8 +84,12 @@ def calc_tax(input_file_path, output_file, csv_file):
                 lot["type"] = plan_type
                 if plan_type == "ESPP":
                     lot["offer_date"] = tax_lot.get_espp_offer_date(lot["acquire_date"])
+                elif plan_type == "BUY":
+                    lot["purchase_price"] = float(row["Acquisition Cost"].strip("$").strip()
+                                                  .replace(",", "")) / lot["share"]
 
-            if not lot["type"] == "ESPP" and not lot["type"] == "RS" and not lot["type"] == "SO":
+            if (not lot["type"] == "ESPP" and not lot["type"] == "RS" and not lot["type"] == "SO" and
+                    not lot["type"] == "BUY"):
                 print("Unsupported lot, type=%s, row id=%d" % (lot["type"], lot["row_id"]))
                 continue
 
@@ -142,7 +149,7 @@ def calc_lot_tax(lot):
     if lot["type"] == "ESPP":
         tax_lot.calc_espp_cost_base(lot, FORCE_QUALIFYING_DISPOSITION)
     else:
-        tax_lot.calc_rs_cost_base(lot)
+        tax_lot.calc_cost_base(lot)
 
     tax_lot.adjust_special_dividend(lot)
     tax_lot.set_capital_gain_term(lot)
