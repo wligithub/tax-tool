@@ -70,7 +70,7 @@ Although the Gain&Loss file contains many fields, the script only utilizes the f
 - QTY.: `<number of shares>`
 - Date Acquired: `<vest or purchase date>`
 - Date Sold: `<merge or sold date>`
-- Total Proceeds: `<total proceeds should match the value reported in the 1099-B>`
+- Total Proceeds: `<total proceeds>`
 
 #### Potential AVGO Cost Base Adjustment For Last ESPP Lot
 
