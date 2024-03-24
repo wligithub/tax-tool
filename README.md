@@ -55,10 +55,10 @@ python3 tax.py gain-loss.csv output -c 459 -s 500 -q
 #### Output
 
 This tool generates two files: one in text format and another with the same name in CSV format. Both files contain tax
-information for each lot. Additionally, the text file contains tax summary across all lots and AVGO cash-in-lieu
-fractional share information. In the generated files, each lot has a "Row ID" field, which corresponds to the ID of
-the corresponding row from the Gain&Loss input file. This correlation allows for easy matching between computed lots
-from the output and reported lots from the input.
+information for each lot. Additionally, the text file contains cost basis for AVGO cash-in-lieu fractional shares and
+provides a tax summary across all lots. In the generated files, each lot has a "Row ID" field, which corresponds to the
+ID of the corresponding row from the Gain&Loss input file. This correlation allows for easy matching between computed
+lots from the output and reported lots from the input.
 
 #### Potential AVGO Cost Base Adjustment For Last ESPP Lot
 
