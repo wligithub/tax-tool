@@ -60,7 +60,7 @@ provides a tax summary across all lots. In the generated files, each lot has a "
 ID of the corresponding row from the Gain&Loss input file. This correlation allows for easy matching between computed
 lots from the output and reported lots from the input.
 
-#### Gain&Loss CSV File Fields Consumed by Script
+#### Gain&Loss File Fields Consumed by Script
 
 Although the Gain&Loss file contains many fields, the script only utilizes the following fields:
 
@@ -129,8 +129,10 @@ Page 3, 2nd to the last paragraph.
 #### [Q] How do I correct the share acquisition date listed as 1970 in my lot? <br/>
 
 VMware IPOed on August 14, 2007. It's evident that shares acquired in 1970 are incorrect. Please contact E*TRADE to
-rectify this issue. In the meantime, if you know the share acquisition date, please update the Gain&Loss file to
-set the `Date Acquired` field to the correct value for this lot (row) and rerun the script.
+rectify this issue. In the meantime, if you know the share acquisition date from this lot (row), please update the
+Gain&Loss file to set the `Date Acquired` field to the correct value. Also, ensure that the values of other fields
+mentioned in the section 'Gain&Loss File Fields Consumed by Script' are correct, and update them if needed. Then,
+rerun the tool.
 
 ## Reference
 
