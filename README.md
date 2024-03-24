@@ -52,9 +52,9 @@ python3 tax.py gain-loss.csv output -c 459 -s 500 -q
     - find row with `TENDER PAYMERNT` comments, the `Quantity` number is the share count liquidated for stock
 - `-q` option: please refer to the section titled `Potential AVGO Cost Base Adjustment For Last ESPP Lot`
 
-#### Handle Shares Acquired Through Brokerage Purchase
+#### Handle VMW Shares Acquired Through Brokerage Purchase
 
-Shares acquired through brokerage purchases will not be included in the downloaded Gain&Loss file. Users can create
+VMW shares acquired through brokerage purchases will not be included in the downloaded Gain&Loss file. Users can create
 their own Gain&Loss file by making a copy of the downloaded one and wiping out the existing content except the
 header. Then, manually enter purchase information into this new Gain&Loss file, allocating one row per transaction.
 The following columns need to be populated:
@@ -66,12 +66,21 @@ The following columns need to be populated:
 - Date Acquired: `<purchase date>`
 - Acquisition Cost: `<total purchase price including commission>`
 - Date Sold: `11/22/2023` or earlier.
-- Total Proceeds: `<total proceeds reported by 1099-B>`
+- Total Proceeds: `<total proceeds>`
+
+If there is an associated AVGO fractional share sell, add a row with the following columns populated
+
+- Record Type: `Sell`
+- Symbol: `AVGO`
+- QTY.: `<number of shares>`
+- Date Acquired: `<purchase date>`
+- Date Sold: `11/22/2023`
+- Total Proceeds: `<total proceeds>`
 
 The command-line inputs `-c` and `-s` are used to calculate the precise cash/stock allocation ratio. If you can
 determine the `-c` and `-s` values, enter them in the command line as usual. Otherwise, you can skip these optional
 parameters, and the script will use the default ratio of 0.479 for cash and 0.521 for stock, respectively.
-The -q option is not needed, as these are not ESPP shares.
+The `-q` option is not needed, as these are not ESPP shares.
 
 #### Output
 
