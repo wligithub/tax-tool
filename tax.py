@@ -4,7 +4,7 @@ from datetime import datetime
 import tax_lot
 
 FORCE_QUALIFYING_DISPOSITION = False
-VMWARE_IPO_DATE = "08/15/2007"
+VMWARE_IPO_DATE = "08/14/2007"
 ipo_date = datetime.strptime(VMWARE_IPO_DATE, "%m/%d/%Y")
 
 
