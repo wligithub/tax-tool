@@ -81,7 +81,7 @@ qualifying after 03/01/2024. If you didn't sell the converted AVGO shares of tha
 as a command line input, which will force the ESPP to be considered as a qualifying disposition. This adjustment will
 result in AVGO shares of this lot having a more favorable (higher) cost basis.
 
-#### Handle VMW Shares Acquired Through Brokerage Purchase
+#### Handle VMW Shares Acquired Through Brokerage Purchase (Advanced Usage)
 
 VMW shares acquired through brokerage purchases will not be included in the downloaded Gain&Loss file. Users can
 create their own Gain & Loss file by making a copy of the downloaded one and wiping out the existing content except
@@ -94,7 +94,7 @@ If there is an associated AVGO fractional share sell, add a row with the followi
 - Record Type: `Sell`
 - Symbol: `AVGO`
 - QTY.: `<fractional share number>`
-- Date Acquired: `<the acquisition date of the VMW lot for AVGO fractional share cost basis calculation>`.
+- Date Acquired: `<The acquisition date of the above-added VMW lot for AVGO fractional share cost basis calculation>`.
 - Date Sold: `11/22/2023`
 - Total Proceeds: `<total proceeds>`
 
