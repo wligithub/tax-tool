@@ -52,6 +52,22 @@ python3 tax.py gain-loss.csv output -c 459 -s 500 -q
     - find row with `TENDER PAYMERNT` comments, the `Quantity` number is the share count liquidated for stock
 - `-q` option: please refer to the section titled `Potential AVGO Cost Base Adjustment For Last ESPP Lot`
 
+#### Output
+
+This tool generates two files: one in text format and another with the same name in CSV format. Both files contain tax
+information for each lot. Additionally, the text file contains tax summary across all lots and AVGO cash-in-lieu
+fractional share information. In the generated files, each lot has a "Row ID" field, which corresponds to the ID of
+the corresponding row from the Gain&Loss input file. This correlation allows for easy matching between computed lots
+from the output and reported lots from the input.
+
+#### Potential AVGO Cost Base Adjustment For Last ESPP Lot
+
+The generated AVGO cost basis can be used as is, except for the last ESPP lot acquired on 08/31/2022, which is the
+only one with a disqualifying disposition as of the merge date. Its ESPP disposition status will transition to
+qualifying after 03/01/2024. If you didn't sell the converted AVGO shares of that lot before 03/01/2024, include `-q`
+as a command line input, which will force the ESPP to be considered as a qualifying disposition. This adjustment will
+result in AVGO shares of this lot having a more favorable (higher) cost basis.
+
 #### Handle VMW Shares Acquired Through Brokerage Purchase
 
 VMW shares acquired through brokerage purchases will not be included in the downloaded Gain&Loss file. Users can create
@@ -82,15 +98,7 @@ determine the `-c` and `-s` values, enter them in the command line as usual. Oth
 parameters, and the script will use the default ratio of 0.479 for cash and 0.521 for stock, respectively.
 The `-q` option is not needed, as these are not ESPP shares.
 
-#### Output
-
-This tool generates two files: one in text format and another with the same name in CSV format. Both files contain tax
-information for each lot. Additionally, the text file contains tax summary across all lots and AVGO cash-in-lieu
-fractional share information. In the generated files, each lot has a "Row ID" field, which corresponds to the ID of
-the corresponding row from the Gain&Loss input file. This correlation allows for easy matching between computed lots
-from the output and reported lots from the input.
-
-#### Turbo Tax Filing
+## Turbo Tax Filing
 
 For each stock transaction reported on Form 1099-B, locate the corresponding row (lot) in the generated tax file by
 acquisition date and share count.
@@ -101,14 +109,6 @@ acquisition date and share count.
 
 ![Alt text](img/tt-1.png?raw=true "enter total proceeds")
 ![Alt text](img/tt-2.png?raw=true "enter total cost base")
-
-#### Potential AVGO Cost Base Adjustment For Last ESPP Lot
-
-The generated AVGO cost basis can be used as is, except for the last ESPP lot acquired on 08/31/2022, which is the
-only one with a disqualifying disposition as of the merge date. Its ESPP disposition status will transition to
-qualifying after 03/01/2024. If you didn't sell the converted AVGO shares of that lot before 03/01/2024, include `-q`
-as a command line input, which will force the ESPP to be considered as a qualifying disposition. This adjustment will
-result in AVGO shares of this lot having a more favorable (higher) cost basis.
 
 ## Frequently Asked Questions
 
