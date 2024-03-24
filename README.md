@@ -118,6 +118,11 @@ acquisition date and share count.
   `filing cost base`: https://investors.broadcom.com/static-files/7720c4c1-c940-4d9d-800c-66819bfdc7a0,
   Page 3, 2nd to the last paragraph.
 
+- [Q] My lot shows share acquired date of 01/01/1970, how to fix this?
+  VMware IPOed on August 14, 2007. It's evident that shares acquired in 1970 are incorrect. Please contact E*TRADE to
+  rectify this issue. In the meantime, if you know the share acquisition date, please update the Gain&Loss file to
+  set the `Date Acquired` to the correct value for this lot (row) and rerun the script.
+
 ## Reference
 
 https://investors.broadcom.com/financial-information/tax-information
