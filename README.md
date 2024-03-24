@@ -69,8 +69,8 @@ Although the Gain&Loss file contains many fields, the script only utilizes the f
 - Plan Type: `ESPP` | `RS` | `SO`
 - QTY.: `<number of shares>`
 - Date Acquired: `<vest or purchase date>`
-- Date Sold: `<date sold>`
-- Total Proceeds: `<total proceeds>`
+- Date Sold: `<merge or sold date>`
+- Total Proceeds: `<total proceeds should match the value reported in the 1099-B>`
 
 #### Potential AVGO Cost Base Adjustment For Last ESPP Lot
 
