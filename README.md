@@ -88,8 +88,8 @@ If there is an associated AVGO fractional share sell, add a row with the followi
 
 - Record Type: `Sell`
 - Symbol: `AVGO`
-- QTY.: `<number of shares>`
-- Date Acquired: `<purchase date>`
+- QTY.: `<fractional share number>`
+- Date Acquired: `<the acquisition date of the VMW lot for AVGO cost basis calculation>`.
 - Date Sold: `11/22/2023`
 - Total Proceeds: `<total proceeds>`
 
