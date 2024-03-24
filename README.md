@@ -60,6 +60,19 @@ provides a tax summary across all lots. In the generated files, each lot has a "
 ID of the corresponding row from the Gain&Loss input file. This correlation allows for easy matching between computed
 lots from the output and reported lots from the input.
 
+#### Gain&Loss CSV File Fields Consumed by Script
+
+Although the Gain&Loss file contains many fields, the script only utilizes the following fields:
+
+- Record Type: `Sell`
+- Symbol: `VMW` | `AVGO`
+- Plan Type: `ESPP` | `RS` | `SO` | `BUY`
+- QTY.: `<number of shares>`
+- Date Acquired: `<vest or purchase date>`
+- Acquisition Cost: `<total purchase price including commission>`, required only if Plan Type is `BUY`
+- Date Sold: `<date sold>`
+- Total Proceeds: `<total proceeds>`
+
 #### Potential AVGO Cost Base Adjustment For Last ESPP Lot
 
 The generated AVGO cost basis can be used as is, except for the last ESPP lot acquired on 08/31/2022, which is the
@@ -70,21 +83,13 @@ result in AVGO shares of this lot having a more favorable (higher) cost basis.
 
 #### Handle VMW Shares Acquired Through Brokerage Purchase
 
-VMW shares acquired through brokerage purchases will not be included in the downloaded Gain&Loss file. Users can create
-their own Gain&Loss file by making a copy of the downloaded one and wiping out the existing content except the
-header. Then, manually enter purchase information into this new Gain&Loss file, allocating one row per transaction.
-The following fields need to be populated:
+VMW shares acquired through brokerage purchases will not be included in the downloaded Gain&Loss file. Users can
+create their own Gain & Loss file by making a copy of the downloaded one and wiping out the existing content except
+for the header. Then, manually enter purchase information into this new Gain & Loss file, allocating one row per
+transaction. Please refer to the section titled `Gain & Loss Fields Consumed by Script` for fields that need to
+be populated. Please set `Plan Type` to `BUY`
 
-- Record Type: `Sell`
-- Symbol: `VMW`
-- Plan Type: `BUY`
-- QTY.: `<number of shares>`
-- Date Acquired: `<purchase date>`
-- Acquisition Cost: `<total purchase price including commission>`
-- Date Sold: `11/22/2023` or earlier.
-- Total Proceeds: `<total proceeds>`
-
-If there is an associated AVGO fractional share sell, add a row with the following fileds populated
+If there is an associated AVGO fractional share sell, add a row with the following fields populated
 
 - Record Type: `Sell`
 - Symbol: `AVGO`
