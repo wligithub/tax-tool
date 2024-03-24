@@ -73,7 +73,7 @@ result in AVGO shares of this lot having a more favorable (higher) cost basis.
 VMW shares acquired through brokerage purchases will not be included in the downloaded Gain&Loss file. Users can create
 their own Gain&Loss file by making a copy of the downloaded one and wiping out the existing content except the
 header. Then, manually enter purchase information into this new Gain&Loss file, allocating one row per transaction.
-The following columns need to be populated:
+The following fields need to be populated:
 
 - Record Type: `Sell`
 - Symbol: `VMW`
@@ -84,7 +84,7 @@ The following columns need to be populated:
 - Date Sold: `11/22/2023` or earlier.
 - Total Proceeds: `<total proceeds>`
 
-If there is an associated AVGO fractional share sell, add a row with the following columns populated
+If there is an associated AVGO fractional share sell, add a row with the following fileds populated
 
 - Record Type: `Sell`
 - Symbol: `AVGO`
@@ -123,7 +123,7 @@ Page 3, 2nd to the last paragraph.
 
 VMware IPOed on August 14, 2007. It's evident that shares acquired in 1970 are incorrect. Please contact E*TRADE to
 rectify this issue. In the meantime, if you know the share acquisition date, please update the Gain&Loss file to
-set the `Date Acquired` to the correct value for this lot (row) and rerun the script.
+set the `Date Acquired` field to the correct value for this lot (row) and rerun the script.
 
 ## Reference
 
