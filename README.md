@@ -66,10 +66,9 @@ Although the Gain&Loss file contains many fields, the script only utilizes the f
 
 - Record Type: `Sell`
 - Symbol: `VMW` | `AVGO`
-- Plan Type: `ESPP` | `RS` | `SO` | `BUY`
+- Plan Type: `ESPP` | `RS` | `SO`
 - QTY.: `<number of shares>`
 - Date Acquired: `<vest or purchase date>`
-- Acquisition Cost: `<total purchase price including commission>`, required only if Plan Type is `BUY`
 - Date Sold: `<date sold>`
 - Total Proceeds: `<total proceeds>`
 
@@ -87,7 +86,10 @@ VMW shares acquired through brokerage purchases will not be included in the down
 create their own Gain & Loss file by making a copy of the downloaded one and wiping out the existing content except
 for the header. Then, manually enter purchase information into this new Gain & Loss file, allocating one row per
 transaction. Please refer to the section titled `Gain & Loss Fields Consumed by Script` for fields that need to
-be populated. Please set `Plan Type` to `BUY`
+be populated. Please set `Plan Type` to `BUY` and populate one additional field:
+
+- Plan Type: `BUY`
+- Acquisition Cost: `<total purchase price including commission>`
 
 If there is an associated AVGO fractional share sell, add a row with the following fields populated
 
