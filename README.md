@@ -130,8 +130,8 @@ Page 3, 2nd to the last paragraph.
 
 VMware IPOed on August 14, 2007. It's evident that shares acquired in 1970 are incorrect. Please contact E*TRADE to
 rectify this issue. In the meantime, if you know the share acquisition date from this lot (row), please update the
-Gain&Loss file to set the `Date Acquired` field to the correct value. Also, ensure that the values of other fields
-mentioned in the section 'Gain&Loss File Fields Consumed by Script' are correct, and update them if needed. Then,
+Gain&Loss CSV file to set the `Date Acquired` field to the correct value. Also, ensure that the values of other fields
+mentioned in the section `Gain&Loss File Fields Consumed by Script` are correct, and update them if needed. Then,
 rerun the tool.
 
 ## Reference
