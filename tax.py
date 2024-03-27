@@ -49,7 +49,7 @@ def calc_tax(input_file_path, output_file, csv_file):
     fractional_lots = []
 
     # read in gain&loss csv file
-    with open(input_file_path, 'r') as file:
+    with open(input_file_path, 'r', encoding='utf-8-sig') as file:
         csv_reader = csv.DictReader(file)
         gain_loss_data = [row for row in csv_reader]
 
