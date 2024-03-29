@@ -49,7 +49,7 @@ python3 tax.py gain-loss.csv output -c 459 -s 500 -q
   `Tax Information` tab -> `statements` -> download 12/31/2023 `Single Account Statement`. On the last page of this
   statement:
     - find row with `UNACCEPTED SHARES` comments, the `Quantity` number is the share count liquidated for cash
-    - find row with `TENDER PAYMERNT` comments, the `Quantity` number is the share count liquidated for stock
+    - find row with `TENDER PAYMENT` comments, the `Quantity` number is the share count liquidated for stock
 - `-q` option: please refer to the section titled `Potential AVGO Cost Base Adjustment For Last ESPP Lot`
 
 #### Output
