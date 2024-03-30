@@ -45,9 +45,9 @@ python3 tax.py gain-loss.csv output -c 459 -s 500 -q
     - Open it in Excel, Numbers, or Google Sheets and save/download it as a CSV file. Choose the
       `Comma Separated Values` option if applicable.
     - If you're using macOS, use Numbers instead of Microsoft Excel to export the .xlsx file as a CSV.
-- `-c & -s` options: the VMware share count liquidated for cash and stock is used to calculate the precise cash/stock 
-   allocation ratio. From E*TRADE website, select `Stock Plan (AVGO) ACCOUNT` -> `Tax Information` tab -> `statements`
-   -> download 12/31/2023 `Single Account Statement`. On the last page of this statement:
+- `-c & -s` options: the VMware share count liquidated for cash and stock is used to calculate the precise cash/stock
+  allocation ratio. From E*TRADE website, select `Stock Plan (AVGO) ACCOUNT` -> `Tax Information` tab -> `statements`
+  -> download 12/31/2023 `Single Account Statement`. On the last page of this statement:
     - find row with `UNACCEPTED SHARES` comments, the `Quantity` number is the share count liquidated for cash
     - find row with `TENDER PAYMENT` comments, the `Quantity` number is the share count liquidated for stock
 - `-q` option: please refer to the section titled `Potential AVGO Cost Base Adjustment For Last ESPP Lot`
@@ -100,8 +100,8 @@ If there is an associated AVGO fractional share sell, add a row with the followi
 - Date Sold: `11/22/2023`
 - Total Proceeds: `<total proceeds>`
 
-When running the tool, if you can determine the `-c` and `-s` values, enter them in the command line as usual. 
-Otherwise, you can skip these optional parameters, and the script will use the default ratio of 0.479 for cash and 
+When running the tool, if you can determine the `-c` and `-s` values, enter them in the command line as usual.
+Otherwise, you can skip these optional parameters, and the script will use the default ratio of 0.479 for cash and
 0.521 for stock, respectively. The `-q` option is not needed, as these are not ESPP shares.
 
 ## Turbo Tax Filing
@@ -121,8 +121,9 @@ acquisition date and share count.
 #### [Q] My lot cost base is still 0, is this expected? <br />
 
 Yes, the merge transaction is different from a normal sale. In general, if the VMW cost basis is lower than $128
-per share, the cost basis is 0. Please refer to the following link for guidelines on computing the
-`filing cost base`: https://investors.broadcom.com/static-files/7720c4c1-c940-4d9d-800c-66819bfdc7a0,
+(VMW FMV at merge date $196 - Cash received $68) per share, the cost basis is 0. Please refer to the following link for
+guidelines on computing
+the `filing cost base`: https://investors.broadcom.com/static-files/7720c4c1-c940-4d9d-800c-66819bfdc7a0,
 Page 3, 2nd to the last paragraph.
 
 #### [Q] How do I correct the share acquisition date listed as 1970 in my lot? <br/>
