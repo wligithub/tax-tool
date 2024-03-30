@@ -124,7 +124,15 @@ Yes, the merge transaction is different from a normal sale. In general, if the V
 (VMW FMV at merge date $196 - Cash received $68) per share, the cost basis is 0. Please refer to the following link for
 guidelines on computing
 the `filing cost base`: https://investors.broadcom.com/static-files/7720c4c1-c940-4d9d-800c-66819bfdc7a0,
-Page 3, 2nd to the last paragraph.
+Page 3, 2nd to the last paragraph. Following is an illustrative example:
+
+VMware's FMV at the merge date is $196 per share. Assuming you have 1 VMware share:
+- If your cost base is $100, your gain is $196 - $100 = $96. However, you only receive $68 per share, so your capital 
+  gain is $68. Etrade reports total proceeds as $68. If you set the cost base to 0, your capital gain remains $68, for 
+  which you need to pay tax.
+- If your cost base is $150, your gain is $196 - $150 = $46. So, your capital gain is $46, even though you receive $68 
+  per share. Etrade reports total proceeds as $68. If you set the cost base to $22, your capital gain remains $46, for 
+  which you need to pay tax.
 
 #### [Q] How do I correct the share acquisition date listed as 1970 in my lot? <br/>
 
