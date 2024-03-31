@@ -15,18 +15,18 @@ VMW_CASH_COMPONENT_VALUE = VMW_SHARES_TO_CASH_RATIO * ONE_VMW_TO_CASH
 VMW_AVGO_SHARE_COMPONENT_RATIO = VMW_SHARES_TO_STOCK_RATIO * ONE_VMW_TO_AGVO_SHARE
 VMW_FMV_AFTER_MERGE = VMW_CASH_COMPONENT_VALUE + VMW_AVGO_SHARE_COMPONENT_RATIO * AVGO_FMV
 
-DIVIDEND_2021_DATE = "11/01/2021"
-DIVIDEND_2021_COST_BASE_REDUCTION = 16.58
-DIVIDEND_2018_DATE = "12/28/2018"
-DIVIDEND_2018_COST_BASE_REDUCTION = DIVIDEND_2021_COST_BASE_REDUCTION + 10.18
+VMW_DIVIDEND_2021_DATE = "11/01/2021"
+VMW_DIVIDEND_2021_COST_BASE_REDUCTION = 16.58
+VMW_DIVIDEND_2018_DATE = "12/28/2018"
+VMW_DIVIDEND_2018_COST_BASE_REDUCTION = 10.18
 
 VMW_PRICE_FILE = "data/vmw-historical-price.csv"
 ESPP_DATE_FILE = "data/espp-date.csv"
 DAYS_IN_YEAR = 365
 
 merge_date = datetime.strptime(MERGE_DATE, "%m/%d/%Y")
-dividend_date_2018 = datetime.strptime(DIVIDEND_2018_DATE, "%m/%d/%Y")
-dividend_date_2021 = datetime.strptime(DIVIDEND_2021_DATE, "%m/%d/%Y")
+dividend_date_2018 = datetime.strptime(VMW_DIVIDEND_2018_DATE, "%m/%d/%Y")
+dividend_date_2021 = datetime.strptime(VMW_DIVIDEND_2021_DATE, "%m/%d/%Y")
 stock_prices = {}
 espp_dates = {}
 
@@ -57,11 +57,12 @@ def display_global_variable(output_file):
     output_file.write('{:<35s}{:,.6f}\n'.format("VMW shares to cash percent:", VMW_SHARES_TO_CASH_RATIO))
     output_file.write('{:<35s}{:,.6f}\n\n'.format("VMW shares to stock percent:", VMW_SHARES_TO_STOCK_RATIO))
 
-    output_file.write("Special dividend 2018: date=%s, reduce cost basis by %.2f\n" % (
-        DIVIDEND_2018_DATE, DIVIDEND_2018_COST_BASE_REDUCTION))
-    output_file.write("Special dividend 2021: date=%s, reduce cost basis by %.2f\n\n" % (
-        DIVIDEND_2021_DATE, DIVIDEND_2021_COST_BASE_REDUCTION))
+    output_file.write("VMW Special dividends:\n")
+    output_file.write("    {} return of capital: ${:.2f}\n".format(VMW_DIVIDEND_2018_DATE, VMW_DIVIDEND_2018_COST_BASE_REDUCTION))
+    output_file.write("    {} return of capital: ${:.2f}\n\n".format(VMW_DIVIDEND_2021_DATE, VMW_DIVIDEND_2021_COST_BASE_REDUCTION))
 
+    output_file.write("Note: VMW shares held on the date of either/both special dividend(s) will have their cost basis\n"
+                      "      reduced by the amount of the return of capital of either/both special dividend(s).\n\n")
 
 def load_historical_price():
     with open(VMW_PRICE_FILE) as csvfile:
@@ -176,9 +177,9 @@ def adjust_special_dividend(lot):
     delta2021 = dividend_date_2021 - acquire_date
 
     if delta2018.days > 0:
-        lot["cost_base"] = cost_base - DIVIDEND_2018_COST_BASE_REDUCTION
+        lot["cost_base"] = cost_base - (VMW_DIVIDEND_2018_COST_BASE_REDUCTION + VMW_DIVIDEND_2021_COST_BASE_REDUCTION)
     elif delta2021.days > 0:
-        lot["cost_base"] = cost_base - DIVIDEND_2021_COST_BASE_REDUCTION
+        lot["cost_base"] = cost_base - VMW_DIVIDEND_2021_COST_BASE_REDUCTION
 
 
 def calc_merge_tax_and_avgo_cost_base(lot):

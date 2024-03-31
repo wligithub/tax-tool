@@ -175,6 +175,8 @@ def find_avgo_fractional_lot(avgo_acquire_date, lots):
 
 def compute_and_display_tax_summary(output_file, lots, fractional_lots):
     total_vmw_share = 0
+    total_vmw_share_cost_basis = 0
+    total_vmw_share_purchase_price = 0
     total_avgo_share = 0
     total_long_term_proceeds = 0
     total_long_term_cost_base = 0
@@ -184,6 +186,9 @@ def compute_and_display_tax_summary(output_file, lots, fractional_lots):
     total_short_term_capital_gain = 0
     total_fractional_share_cost_base = 0
     total_fractional_share_capital_gain = 0
+    total_avgo_shares_cost_basis = 0
+    total_long_term_avgo_shares_cost_basis = 0
+    total_short_term_avgo_shares_cost_basis = 0
 
     # compute tax summary of all lots
     for lot in lots:
@@ -193,10 +198,16 @@ def compute_and_display_tax_summary(output_file, lots, fractional_lots):
             total_long_term_proceeds += lot["total_proceeds"]
             total_long_term_cost_base += lot["filing_cost_base"]
             total_long_term_capital_gain += lot["total_capital_gain"]
+            total_long_term_avgo_shares_cost_basis += lot["avgo_total_cost_base"]
         else:
             total_short_term_proceeds += lot["total_proceeds"]
             total_short_term_cost_base += lot["filing_cost_base"]
             total_short_term_capital_gain += lot["total_capital_gain"]
+            total_short_term_avgo_shares_cost_basis += lot["avgo_total_cost_base"]
+
+        total_avgo_shares_cost_basis += lot["avgo_total_cost_base"]
+        total_vmw_share_purchase_price += lot["purchase_price"] * lot["share"]
+        total_vmw_share_cost_basis += lot["cost_base"] * lot["share"]
 
         if lot["merged"]:
             total_avgo_share += lot["avgo_share"]
@@ -211,8 +222,11 @@ def compute_and_display_tax_summary(output_file, lots, fractional_lots):
 
     # display tax summary of all lots
     output_file.write('{:<35s}{:<.3f}\n'.format("total vmw share:", total_vmw_share))
-    output_file.write('{:<35s}{:<.3f}\n'.format("total avgo share:", total_avgo_share))
-    output_file.write('{:<35s}${:,.2f}\n\n'.format("total proceeds:", total_proceeds))
+    output_file.write('{:<35s}{:<.3f}\n\n'.format("total avgo share:", total_avgo_share))
+
+    output_file.write('{:<35s}${:,.2f}\n'.format("total proceeds:", total_proceeds))
+    output_file.write('{:<35s}${:,.2f}\n\n'.format("total proceeds - cash-in-lieu:",
+                                                 total_long_term_proceeds + total_short_term_proceeds))
 
     output_file.write('{:<35s}${:,.2f}\n'.format("total short term proceeds:", total_short_term_proceeds))
     output_file.write('{:<35s}${:,.2f}\n'.format("total short term cost basis:", total_short_term_cost_base))
@@ -226,12 +240,24 @@ def compute_and_display_tax_summary(output_file, lots, fractional_lots):
     output_file.write(
         '{:<50s}${:,.2f}\n'.format("total avgo cash-in-lieu frac share cost basis:", total_fractional_share_cost_base))
     output_file.write(
-        '{:<50s}${:,.2f}\n'.format("total avgo cash-in-lieu frac share capital gain:",
+        '{:<50s}${:,.2f}\n\n'.format("total avgo cash-in-lieu frac share capital gain:",
                                    total_fractional_share_capital_gain))
+
+    output_file.write('{:<50s}${:,.2f}\n'.format("total short term avgo share cost basis:", total_short_term_avgo_shares_cost_basis))
+    output_file.write('{:<50s}${:,.2f}\n'.format("total long term avgo share cost basis:", total_long_term_avgo_shares_cost_basis))
+    output_file.write('{:<50s}${:,.2f}\n'.format("total avgo share cost basis:", total_avgo_shares_cost_basis))
+    output_file.write('{:<50s}${:,.2f}\n\n'.format("avg avgo share cost basis:", total_avgo_shares_cost_basis / total_avgo_share))
+
+    output_file.write('{:<50s}${:,.2f}\n'.format("total vmw share purchase price:", total_vmw_share_purchase_price))
+    output_file.write('{:<50s}${:,.2f}\n'.format("avg vmw share purchase price:", total_vmw_share_purchase_price / total_vmw_share))
+    output_file.write('{:<50s}${:,.2f}\n'.format("total vmw share cost basis:", total_vmw_share_cost_basis))
+    output_file.write('{:<50s}${:,.2f}\n'.format("avg vmw share cost basis:", total_vmw_share_cost_basis / total_vmw_share))
+
+    output_file.write('\n----------------------------------------------------\n')
 
     # display fractional share info, same info is also displayed in that lot
     for fractional_lot in fractional_lots:
-        output_file.write('\n{:<35s}{:<d}\n'.format("fractional share cost basis lot:", fractional_lot["row_id"]))
+        output_file.write('\n{:<35s}{:<d}\n'.format("fractional share source lot row:", fractional_lot["row_id"]))
         output_file.write('{:<35s}{:<s}\n'.format("acquire date:", fractional_lot["acquire_date"]))
         output_file.write('{:<35s}{:<s}'.format("long term:", str(fractional_lot["long_term"])))
         tax_lot.display_fractional_share(output_file, fractional_lot)
