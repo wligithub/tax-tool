@@ -62,7 +62,7 @@ acquire_date,offer_date
 ...
 02/28/2021,03/01/2020
 ```
-If a person joined VMware in mid-2020, he/she could be enrolled in the second half of the 2020 ESPP plan. Thus, based on 
+If a person joined VMware in mid-2020, they could be enrolled in the second half of the 2020 ESPP plan. Thus, based on 
 the ESPP confirmation, they need to update the espp-date.csv file to change the offer_date from 03/01/2020 to 
 09/01/2020. No need to change acquired_date which is the date you actually own the shares.
 
