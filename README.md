@@ -52,6 +52,19 @@ python3 tax.py gain-loss.csv output -c 459 -s 500 -q
     - find row with `TENDER PAYMENT` comments, the `Quantity` number is the share count liquidated for stock
 - `-q` option: please refer to the section titled `Potential AVGO Cost Base Adjustment For Last ESPP Lot`
 
+For ESPP shares, the tool utilizes the `data/espp-date.csv` file to track acquire_date and offer_date for each ESPP 
+period offered by VMware. Some of the periods are one year long. If you joined the company in the middle of the year, 
+it is possible you enrolled in the second half of the ESPP plan. Please check your first enrolled ESPP period and 
+update the offer_date accordingly. For example: in espp-date.csv, there is one period as following:
+```text
+acquire_date,offer_date
+...
+02/28/2021,03/01/2020
+```
+If a person joined VMware in mid-2020, they could be enrolled in the second half of the 2020 ESPP plan. Thus, based on 
+the ESPP confirmation, they need to update the espp-date.csv file to change the offer_date from 03/01/2020 to 
+09/01/2020.
+
 #### Output
 
 This tool generates two files: one in text format and another with the same name in CSV format. Both files contain tax
