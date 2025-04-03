@@ -166,7 +166,8 @@ def calc_lot_tax(lot):
 
 
 def find_avgo_fractional_lot(avgo_acquire_date, lots):
-    for lot in lots:
+    # e*trade uses the last lot with matching date as the fractional lot
+    for lot in reversed(lots):
         if lot["acquire_date"] == avgo_acquire_date and lot["merged"]:
             return lot
 
